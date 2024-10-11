@@ -46,11 +46,36 @@
         header {
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        .table-responsive { 
+        .table-responsive {
             margin-top: 30px;
         }
         main {
             margin-left: 250px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+        }
+
+        .close {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -71,10 +96,10 @@
                 <h4 class="text-center text-white">Menú</h4>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="Dashboard.html" data-toggle="modal" data-target="#userModal">Usuarios</a>
+                        <a class="nav-link" href="/Dashboard.html" data-toggle="modal" data-target="#userModal">Usuarios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="modal" data-target="#clientModal">Clientes</a>
+                        <a class="nav-link" href="/Dashboard.html" data-toggle="modal" data-target="#clientModal">Clientes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-toggle="modal" data-target="#reservationModal">Reservas</a>
@@ -102,6 +127,7 @@
                             <th scope="col">Contraseña</th>
                             <th scope="col">Celular</th>
                             <th scope="col">Estado</th>
+                            <th scope="col">Opciones de edición</th>
                         </tr>
                     </thead>
                     <tbody id="users">
@@ -127,13 +153,65 @@
                 const users = document.getElementById('users');
                 response.data.forEach(element => {
                     const row = document.createElement('tr')
-                    row.innerHTML = '<td>' + element.usuario_id + '</td><td>' + element.cedula + '</td><td>' + element.nombres + '</td><td>' + element.apellidos + '</td><td>' + element.correo + '</td><td>' + element.contraseña + '</td><td>' + element.celular + '</td><td>' + element.estado_rg + '</td>'
+                    row.innerHTML = '<td>' + element.usuario_id + '</td><td>' + element.cedula + '</td><td>' + element.nombres + '</td><td>' + element.apellidos + '</td><td>' + element.correo + '</td><td>' + element.contraseña + '</td><td>' + element.celular + '</td><td>' + element.estado_rg + '</td>' +
+                    '<td>' +
+                        '<button class="btn btn-danger mr-2" onclick="eliminarUsuario(' + element.usuario_id + ')">Eliminar</button> ' +
+                        '<button class="btn btn-primary" onclick="openUpdateModal(' + element.usuario_id + ')">Actualizar</button>' +
+                    '</td>';
                     users.appendChild(row)
                 })
                 console.log(response.data)
             });
         }
+
+        function actualizarUsuario(usuario_id) {
+            axios({
+                method: 'PUT',
+                url: 'http://127.0.0.1:8000/users/updt_users' + usuario_id,
+                data: nuevosDatos
+            }).then(function(response){
+                alert('Usuario actualizado exitosamente');
+                location.reload();
+            }).catch(function(error){
+                alert('Error al actualizar el usuario: ' + error);
+            });
+        }
+
+        function eliminarUsuario(usuario_id) {
+            axios({
+                method: 'PUT',
+                url: 'http://127.0.0.1:8000/users/dlt_users/' + usuario_id
+            }).then(function(response){
+                alert('Usuario eliminado exitosamente');
+                location.reload();
+            }).catch(function(error){
+                alert('Error al eliminar el usuario: ' + error);
+        });
+    }
     </script>
+    <div id="updateModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeUpdateModal()">&times;</span>
+            <h3>Actualizar Usuario</h3>
+            <form id="userUpdateForm">
+                <input type="hidden" id="updateUsuarioId">
+                <label for="updateNombres">Nombres:</label>
+                <input type="text" id="updateNombres"><br>
+
+                <label for="updateApellidos">Apellidos:</label>
+                <input type="text" id="updateApellidos"><br>
+
+                <label for="updateCorreo">Correo:</label>
+                <input type="email" id="updateCorreo"><br>
+
+                <label for="updateCelular">Celular:</label>
+                <input type="text" id="updateCelular"><br>
+
+                <button type="button" onclick="submitUpdate()">Guardar Cambios</button>
+                <button type="button" onclick="closeUpdateModal()">Cancelar</button>
+            </form>
+        </div>
+    </div>
 <!-- Modal para Usuario -->
     <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
         <div class="modal-dialog">
