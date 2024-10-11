@@ -71,10 +71,7 @@
                 <h4 class="text-center text-white">Menú</h4>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="modal" data-target="#userModal">Usuarios</a>
+                        <a class="nav-link" href="Dashboard.html" data-toggle="modal" data-target="#userModal">Usuarios</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-toggle="modal" data-target="#clientModal">Clientes</a>
@@ -90,146 +87,7 @@
         </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-5">
-            <h1 class="h2">PANEL</h1>
-            <div class="row mb-4">
-                <div class="col-md-12">
-                    <div class="d-flex justify-content-between">
-                        <button class="btn btn-primary" data-toggle="collapse" data-target="#formUsuario">Usuario</button>
-                        <button class="btn btn-secondary" data-toggle="collapse" data-target="#formCliente">Cliente</button>
-                        <button class="btn btn-success" data-toggle="collapse" data-target="#formReserva">Reserva</button>
-                        <button class="btn btn-warning" data-toggle="collapse" data-target="#formPago">Pago</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Formularios colapsables -->
-            <div id="formContainer">
-                <div class="collapse" id="formUsuario" data-parent="#formContainer">
-                    <div class="card card-body">
-                        <h5 class="card-title">Formulario de Usuario</h5>
-                        <form>
-                            <div class="mb-3">
-                                <label for="identificacionUsuario" class="form-label">Identificación</label>
-                                <input type="text" class="form-control" id="identificacionUsuario" placeholder="Ingrese su identificación" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="nombreUsuario" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombreUsuario" placeholder="Ingrese su nombre" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="apellidoUsuario" class="form-label">Apellidos</label>
-                                <input type="text" class="form-control" id="apellidoUsuario" placeholder="Ingrese sus apellidos" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="emailUsuario" class="form-label">Correo Electrónico</label>
-                                <input type="email" class="form-control" id="emailUsuario" placeholder="Ingrese su correo electrónico" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="telefonoUsuario" class="form-label">Teléfono</label>
-                                <input type="tel" class="form-control" id="telefonoUsuario" placeholder="Ingrese su número de teléfono" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="rolUsuario" class="form-label">Rol</label>
-                                <select class="form-select" id="rolUsuario">
-                                    <option value="admin">Administrador</option>
-                                    <option value="patio">Patio</option>
-                                    <option value="contabilidad">Contabilidad</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Guardar</button>
-                        </form>
-                    </div>
-                </div>
-            
-                <div class="collapse" id="formCliente" data-parent="#formContainer">
-                    <div class="card card-body">
-                        <h5 class="card-title">Formulario de Cliente</h5>
-                        <form>
-                            <div class="mb-3">
-                                <label for="identificacionCliente" class="form-label">Identificación</label>
-                                <input type="text" class="form-control" id="identificacionCliente" placeholder="Ingrese la identificación" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="nombreCliente" class="form-label">Nombre Completo</label>
-                                <input type="text" class="form-control" id="nombreCliente" placeholder="Ingrese el nombre completo del cliente" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="emailCliente" class="form-label">Correo Electrónico</label>
-                                <input type="email" class="form-control" id="emailCliente" placeholder="Ingrese el correo electrónico" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="telefonoCliente" class="form-label">Teléfono</label>
-                                <input type="tel" class="form-control" id="telefonoCliente" placeholder="Ingrese el número de teléfono" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="direccionCliente" class="form-label">Dirección</label>
-                                <input type="text" class="form-control" id="direccionCliente" placeholder="Ingrese la dirección" required>
-                            </div>
-                            <button type="submit" class="btn btn-secondary">Enviar</button>
-                        </form>
-                    </div>
-                </div>
-            
-                <div class="collapse" id="formReserva" data-parent="#formContainer">
-                    <div class="card card-body">
-                        <h5 class="card-title">Formulario de Reserva</h5>
-                        <form>
-                            <div class="mb-3">
-                                <label for="identificacionReserva" class="form-label">Identificación del Cliente</label>
-                                <input type="text" class="form-control" id="identificacionReserva" placeholder="Ingrese la identificación del cliente" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="modeloVehiculo" class="form-label">Modelo del Vehículo</label>
-                                <input type="text" class="form-control" id="modeloVehiculo" placeholder="Ingrese el modelo del vehículo" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="fechaReserva" class="form-label">Fecha de Reserva</label>
-                                <input type="date" class="form-control" id="fechaReserva" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="horaReserva" class="form-label">Hora de Reserva</label>
-                                <input type="time" class="form-control" id="horaReserva" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="fechaDevolucion" class="form-label">Fecha de Devolución</label>
-                                <input type="date" class="form-control" id="fechaDevolucion" required>
-                            </div>
-                            <button type="submit" class="btn btn-success">Reservar</button>
-                        </form>
-                    </div>
-                </div>
-            
-                <div class="collapse" id="formPago" data-parent="#formContainer">
-                    <div class="card card-body">
-                        <h5 class="card-title">Formulario de Pago</h5>
-                        <form>
-                            <div class="mb-3">
-                                <label for="identificacionPago" class="form-label">Identificación del Cliente</label>
-                                <input type="text" class="form-control" id="identificacionPago" placeholder="Ingrese la identificación del cliente" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="montoPago" class="form-label">Monto</label>
-                                <input type="number" class="form-control" id="montoPago" placeholder="Ingrese el monto a pagar" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="fechaPago" class="form-label">Fecha de Pago</label>
-                                <input type="date" class="form-control" id="fechaPago" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="metodoPago" class="form-label">Método de Pago</label>
-                                <select class="form-select" id="metodoPago">
-                                    <option value="tarjeta">Tarjeta de Crédito</option>
-                                    <option value="efectivo">Efectivo</option>
-                                    <option value="transferencia">Transferencia Bancaria</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-warning">Pagar</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            
-
+            <h1 class="h2">Panel Principal de Usuarios!</h1>
 
             <h2 class="mt-4">Usuarios</h2>
             <div class="table-responsive small">
@@ -276,5 +134,65 @@
             });
         }
     </script>
+<!-- Modal para Usuario -->
+    <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalUsuarioLabel">Formulario de registro de Usuarios</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="tipo_docmnt" class="form-label">Tipo de documento</label>
+                            <select class="form-select" id="Tipo de documento" required>
+                                <option value="">Seleccione un tipo de documento</option>
+                                <option value="CC">Cedula de Ciudadania</option>
+                                <option value="CE">Cedula de Extranjeria</option>
+                                <option value="NIT">NIT</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="identificacionUsuario" class="form-label">N° de identificación</label>
+                            <input type="text" class="form-control" id="identificacionUsuario" placeholder="Ingrese su identificación" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nombreUsuario" class="form-label">Nombres</label>
+                            <input type="text" class="form-control" id="nombreUsuario" placeholder="Ingrese sus nombres" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellidoUsuario" class="form-label">Apellidos</label>
+                            <input type="text" class="form-control" id="apellidoUsuario" placeholder="Ingrese sus apellidos" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="correo" placeholder="Ingrese su correo electrónico" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contraseña" class="form-label">Contraseña</label>
+                            <input type="email" class="form-control" id="contraseñausuario" placeholder="Ingrese su Contraseña" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="celular" class="form-label">Celular</label>
+                            <input type="tel" class="form-control" id="celularUsuario" placeholder="Ingrese su número de Celular" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rolUsuario" class="form-label">Rol</label>
+                            <select class="form-select" id="rolUsuario" required>
+                                <option value="">Seleccione un rol</option>
+                                <option value="1">Administrador</option>
+                                <option value="2">Patio</option>
+                                <option value="3">Contabilidad</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -122,7 +122,7 @@
                 if (response.data.status == 'success') {
                     window.location = 'Dashboard.html';
                 }else{
-                    alert('Error de autenticación' + response.data.message)
+                    alert('Error de autenticación, ' + response.data.message)
                 }
             });
         })

@@ -1,8 +1,8 @@
+import mysql.connector
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-import mysql.connector
 from core.connection import connection
-from models.users import Users, Clients, Login
+from models.users import UsersCreate, Clients, Login, UsersUpdt
 
 app = FastAPI()
 
@@ -21,25 +21,25 @@ def leer():
 
 @app.post("/login")
 def login(dato: Login):
-    if (dato.correo == 'MESTRADA@GMAIL.COM' and dato.contraseña == 'Mestrada20'):
+    if dato.correo == 'H@TEST' and dato.contraseña == 'H123':
         return {
             'status': 'success',
             'message': 'Datos correctos!',
             'data': {
                 'user_id': 2
             }
-        }
+        },200
 
     return {
         'status': 'Error',
         'message': 'Usuario o contraseña incorrectos!'
-    }
+    },400
 
 #CRUD users
 @app.get('/users/get_all_users')
 async def get_users():
     cursor = connection.cursor(dictionary=True)
-    query = "SELECT * FROM usuarios"
+    query = "SELECT * FROM usuarios WHERE estado_rg = 1"
 
     try:
         cursor.execute(query)
@@ -51,9 +51,8 @@ async def get_users():
     finally:
         cursor.close()
 
-
 @app.post('/users/create_users')
-async def create_users(users: Users):
+async def create_users(users: UsersCreate):
     cursor = connection.cursor()
     query = "INSERT INTO usuarios (rol_id, documento_id, cedula, nombres, apellidos, correo, contraseña, celular) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
 
@@ -63,7 +62,7 @@ async def create_users(users: Users):
     try:
         cursor.execute(query, values)
         connection.commit()
-        return {"message": "Usuario creado exitosomente"}
+        return {"message": "Usuario creado exitosomente"},201
     except mysql.connector.Error as err:
         raise HTTPException(status_code=500, detail=f"Error al guardar el usuario! : {err}")
     except ValueError as e:
@@ -72,12 +71,12 @@ async def create_users(users: Users):
         cursor.close()
 
 
-@app.put('/users/updt_users/{usuario_id}')
-async def create_users(users: Users, usuario_id: int):
+@app.put('/users/updt_users')
+async def create_users(users: UsersUpdt):
     cursor = connection.cursor()
     query = "UPDATE usuarios SET rol_id = %s, documento_id = %s, cedula = %s, nombres = %s, apellidos = %s, correo = %s, contraseña = %s, celular = %s, fecha_md = current_timestamp where usuario_id = %s"
 
-    values = (users.rol_id, users.documento_id, users.cedula, users.nombres, users.apellidos, users.correo, users.contraseña, users.celular, usuario_id)
+    values = (users.rol_id, users.documento_id, users.cedula, users.nombres, users.apellidos, users.correo, users.contraseña, users.celular, users.usuario_id)
     try:
         cursor.execute(query, values)
         connection.commit()
@@ -86,6 +85,20 @@ async def create_users(users: Users, usuario_id: int):
         raise HTTPException(status_code=500, detail=f"Error al actualizar el usuario! : {err}")
     except ValueError as e:
         raise HTTPException(status_code=400, detail=f"Error en el tipo de dato! : {e}")
+    finally:
+        cursor.close()
+
+@app.put('/users/dlt_users/{usuario_id}')
+async def dlt_users(usuario_id: int):
+    cursor = connection.cursor()
+    query = "UPDATE usuarios SET estado_rg = 0 WHERE usuario_id = %s"
+
+    try:
+        cursor.execute(query, (usuario_id,))
+        connection.commit()
+        return {"message": "Usuario eliminado exitosomente"},201
+    except mysql.connector.Error as err:
+        raise HTTPException(status_code=500, detail=f"Error al actualizar el usuario! : {err}")
     finally:
         cursor.close()
 
