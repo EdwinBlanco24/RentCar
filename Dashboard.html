@@ -77,6 +77,11 @@
             font-weight: bold;
             cursor: pointer;
         }
+        .close:hover, .close:focus {
+            color: black;
+            text-decoration:none;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -195,17 +200,20 @@
             <h3>Actualizar Usuario</h3>
             <form id="userUpdateForm">
                 <input type="hidden" id="updateUsuarioId">
-                <label for="updateNombres">Nombres:</label>
-                <input type="text" id="updateNombres"><br>
+                <label for="nombres">Nombres:</label>
+                <input type="text" id="nombres"><br>
 
-                <label for="updateApellidos">Apellidos:</label>
-                <input type="text" id="updateApellidos"><br>
+                <label for="apellidos">Apellidos:</label>
+                <input type="text" id="apellidos"><br>
 
-                <label for="updateCorreo">Correo:</label>
-                <input type="email" id="updateCorreo"><br>
+                <label for="correo">Correo:</label>
+                <input type="email" id="correo"><br>
 
-                <label for="updateCelular">Celular:</label>
-                <input type="text" id="updateCelular"><br>
+                <label for="contraseña">Contraseña:</label>
+                <input type="text" id="contraseña"><br>
+
+                <label for="celular">Celular:</label>
+                <input type="text" id="celular"><br>
 
                 <button type="button" onclick="submitUpdate()">Guardar Cambios</button>
                 <button type="button" onclick="closeUpdateModal()">Cancelar</button>
