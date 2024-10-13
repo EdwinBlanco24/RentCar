@@ -161,7 +161,7 @@
                     row.innerHTML = '<td>' + element.usuario_id + '</td><td>' + element.cedula + '</td><td>' + element.nombres + '</td><td>' + element.apellidos + '</td><td>' + element.correo + '</td><td>' + element.contraseña + '</td><td>' + element.celular + '</td><td>' + element.estado_rg + '</td>' +
                     '<td>' +
                         '<button class="btn btn-danger mr-2" onclick="eliminarUsuario(' + element.usuario_id + ')">Eliminar</button> ' +
-                        '<button class="btn btn-primary" onclick="openUpdateModal(' + element.usuario_id + ')">Actualizar</button>' +
+                        '<button id="openModalBtn" class="btn btn-primary" onclick="openUpdateModal(' + element.usuario_id + ')">Actualizar</button>' +
                     '</td>';
                     users.appendChild(row)
                 })
@@ -169,13 +169,47 @@
             });
         }
 
+        #Obtener los elementos del DOM para el actualizar
+            const modal = document.getElementById("userModal");
+            const openModalBtn = document.getElementById("openModalBtn");
+            const closeModalBtn = document.querySelector(".closeBtn");
+            const form = document.getElementById("updateUserForm");
+
+            openModalBtn.addEventListener("click", () => {
+                modal.style.display = "none";
+            });
+
+        #Cerrar modal si hacen clic fuera de la ventana
+            window.addEventListener("click", (event) => {
+                if (event.target == modal){
+                modal.style.display = "none";
+                }
+            });
+
+            for.addEventListener("button", (event) => {
+                event.preventDefault();
+                const userData = {
+                    usuario_id: form.usuario_id.value,
+                    rol_id: form.rol_id.value,
+                    documento_id: form.documento_id.value,
+                    cedula: form.cedula.value,
+                    nombres: form.nombres.value,
+                    apellidos: form.apellidos.value,
+                    correo: form.correo.value,
+                    contraseña: form.contraseña.value,
+                    celular: form.celular.value,
+                };
+            });
+        }
+
         function actualizarUsuario(usuario_id) {
             axios({
                 method: 'PUT',
                 url: 'http://127.0.0.1:8000/users/updt_users' + usuario_id,
-                data: nuevosDatos
+                data: userData
             }).then(function(response){
                 alert('Usuario actualizado exitosamente');
+                modal.style.display = "none";
                 location.reload();
             }).catch(function(error){
                 alert('Error al actualizar el usuario: ' + error);
@@ -191,15 +225,37 @@
                 location.reload();
             }).catch(function(error){
                 alert('Error al eliminar el usuario: ' + error);
-        });
-    }
+            });
+        }
     </script>
+
+
     <div id="updateModal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close" onclick="closeUpdateModal()">&times;</span>
             <h3>Actualizar Usuario</h3>
             <form id="userUpdateForm">
-                <input type="hidden" id="updateUsuarioId">
+                <input type="hidden" id="usuario_id">
+
+                <label for="usuario_id">Id:</label>
+                <input type="text" id="usuario_id"><br>
+
+                <label for="rol_id">Rol:</label>
+                <input type="text" id="rol_id"><br>
+
+                <div class="mb-3">
+                    <label for="Tipo de documento" class="form-label">Tipo de documento</label>
+                        <select class="form-select" id="Tipo de documento" required>
+                            <option value="">Seleccione un tipo de documento</option>
+                            <option value="1">Cedula de Ciudadania</option>
+                            <option value="2">Cedula de Extranjeria</option>
+                            <option value="3">NIT</option>
+                        </select>
+                </div>
+
+                <label for="cedula">Cedula:</label>
+                <input type="text" id="cedula"><br>
+
                 <label for="nombres">Nombres:</label>
                 <input type="text" id="nombres"><br>
 
@@ -233,12 +289,12 @@
                 <div class="modal-body">
                     <form>
                         <div class="mb-3">
-                            <label for="tipo_docmnt" class="form-label">Tipo de documento</label>
+                            <label for="Tipo de documento" class="form-label">Tipo de documento</label>
                             <select class="form-select" id="Tipo de documento" required>
                                 <option value="">Seleccione un tipo de documento</option>
-                                <option value="CC">Cedula de Ciudadania</option>
-                                <option value="CE">Cedula de Extranjeria</option>
-                                <option value="NIT">NIT</option>
+                                <option value="1">Cedula de Ciudadania</option>
+                                <option value="2">Cedula de Extranjeria</option>
+                                <option value="3">NIT</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -254,7 +310,7 @@
                             <input type="text" class="form-control" id="apellidoUsuario" placeholder="Ingrese sus apellidos" required>
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="form-label">Correo Electrónico</label>
+                            <label for="correo" class="form-label">Correo Electrónico</label>
                             <input type="email" class="form-control" id="correo" placeholder="Ingrese su correo electrónico" required>
                         </div>
                         <div class="mb-3">
