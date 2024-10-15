@@ -51,6 +51,23 @@ async def get_users():
     finally:
         cursor.close()
 
+@app.get('/users/get_user/{usuario_id}')
+async def get_user(usuario_id: int):
+    cursor = connection.cursor(dictionary=True)
+    query = "SELECT * FROM usuarios WHERE usuario_id = %s"
+
+    try:
+        cursor.execute(query, (usuario_id,))
+        user = cursor.fetchone()
+        if user is None:
+            raise HTTPException(status_code=404, detail="Usuario no encontrado")
+        return user
+    except mysql.connector.Error as er:
+        raise HTTPException(status_code=500, detail=f"Error de conexion con Db MySql : {er}")
+    finally:
+        cursor.close()
+
+
 @app.post('/users/create_users')
 async def create_users(users: UsersCreate):
     cursor = connection.cursor()
