@@ -36,6 +36,7 @@ def login(dato: Login):
     },400
 
 #CRUD users
+#Obtener todos los users
 @app.get('/users/get_all_users')
 async def get_users():
     cursor = connection.cursor(dictionary=True)
@@ -51,6 +52,7 @@ async def get_users():
     finally:
         cursor.close()
 
+#Obtener user para actualizar
 @app.get('/users/get_user/{usuario_id}')
 async def get_user(usuario_id: int):
     cursor = connection.cursor(dictionary=True)
@@ -67,7 +69,7 @@ async def get_user(usuario_id: int):
     finally:
         cursor.close()
 
-
+#Crear users
 @app.post('/users/create_users')
 async def create_users(users: UsersCreate):
     cursor = connection.cursor()
@@ -87,7 +89,7 @@ async def create_users(users: UsersCreate):
     finally:
         cursor.close()
 
-
+#Actualizar users
 @app.put('/users/updt_users/{usuario_id}')
 async def updt_users(usuario_id: int, users: UsersUpdt):
     cursor = connection.cursor()
@@ -105,6 +107,7 @@ async def updt_users(usuario_id: int, users: UsersUpdt):
     finally:
         cursor.close()
 
+#"Eliminar" users
 @app.put('/users/dlt_users/{usuario_id}')
 async def dlt_users(usuario_id: int):
     cursor = connection.cursor()
@@ -118,6 +121,9 @@ async def dlt_users(usuario_id: int):
         raise HTTPException(status_code=500, detail=f"Error al actualizar el usuario! : {err}")
     finally:
         cursor.close()
+
+
+
 
 #CRUD clients
 @app.get('/clients/get_all_clients')

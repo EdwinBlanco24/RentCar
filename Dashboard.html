@@ -251,6 +251,42 @@
                 alert('Error al eliminar el usuario: ' + error);
             });
         };
+
+        document.addEventListener("DOMContentLoaded", function(){
+            const form = document.getElementById("userCreateForm");
+
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                const newuser = {
+                    rol_id: parseInt(document.getElementById("rol_id").value),
+                    documento_id: parseInt(document.getElementById("documento_id").value),
+                    cedula: document.getElementById("cedula").value,
+                    nombres: document.getElementById("nombres").value,
+                    apellidos: document.getElementById("apellidos").value,
+                    correo: document.getElementById("correo").value,
+                    contraseña: document.getElementById("contraseña").value,
+                    celular: document.getElementById("celular").value
+                };
+                crearusuario(newuser);
+            });
+        });
+
+        function crearusuario(newuser){
+            axios({
+                method: 'POST',
+                url: 'http://127.0.0.1:8000/users/create_users',
+                data: newuser,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then (function (response) {
+                alert('Usuario creado exitosamente');
+                location.reload();
+            }).catch(function (error) {
+                alert('Error al crear el usuario: ' + error.response.data.detail);
+            });
+        }
     </script>
 
 <!-- Modal para actualizar Usuarios -->
@@ -286,11 +322,10 @@
                 <input type="text" id="celular"><br>
 
                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                <button type="button" class="btn btn-danger">Cancelar</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
             </form>
         </div>
     </div>
-
 
 
 <!-- Modal para crear nuevo Usuario -->
@@ -301,25 +336,14 @@
                     <h5 class="modal-title" id="modalUsuarioLabel">Formulario de registro de Usuarios</h5>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="userCreateForm">
                         <div class="mb-3">
                             <label for="rol_id" class="form-label">Tipo de rol</label>
-                                <select class="form-select" id="rol_id" required>
-                                    <option value="">Seleccione un tipo de rol</option>
-                                    <option value="1">admin</option>
-                                    <option value="2">patio1</option>
-                                    <option value="3">patio2</option>
-                                    <option value="4">contabilidad</option>
-                                </select>
+                            <input type="text" class="form-control" id="rol_id" placeholder="Ingrese su tipo de rol" required>
                         </div>
                         <div class="mb-3">
                             <label for="documento_id" class="form-label">Tipo de documento</label>
-                            <select class="form-select" id="documento_id" required>
-                                <option value="">Seleccione un tipo de documento</option>
-                                <option value="1">Cedula de Ciudadania</option>
-                                <option value="2">Cedula de Extranjeria</option>
-                                <option value="3">NIT</option>
-                            </select>
+                            <input type="text" class="form-control" id="documento_id" placeholder="Ingrese su tipo de documento" required>
                         </div>
                         <div class="mb-3">
                             <label for="cedula" class="form-label">N° de identificación</label>
@@ -339,14 +363,14 @@
                         </div>
                         <div class="mb-3">
                             <label for="contraseña" class="form-label">Contraseña</label>
-                            <input type="email" class="form-control" id="contraseña" placeholder="Ingrese su Contraseña" required>
+                            <input type="text" class="form-control" id="contraseña" placeholder="Ingrese su Contraseña" required>
                         </div>
                         <div class="mb-3">
                             <label for="celular" class="form-label">Celular</label>
                             <input type="tel" class="form-control" id="celular" placeholder="Ingrese su número de Celular" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Guardar</button>
-                        <button type="button" class="btn btn-danger">Cancelar</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                     </form>
                 </div>
             </div>
