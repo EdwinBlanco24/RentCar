@@ -88,8 +88,8 @@ async def create_users(users: UsersCreate):
         cursor.close()
 
 
-@app.put('/users/updt_users')
-async def create_users(users: UsersUpdt):
+@app.put('/users/updt_users/{usuario_id}')
+async def updt_users(usuario_id: int, users: UsersUpdt):
     cursor = connection.cursor()
     query = "UPDATE usuarios SET rol_id = %s, documento_id = %s, cedula = %s, nombres = %s, apellidos = %s, correo = %s, contraseña = %s, celular = %s, fecha_md = current_timestamp where usuario_id = %s"
 
