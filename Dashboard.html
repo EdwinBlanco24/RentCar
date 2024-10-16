@@ -294,21 +294,28 @@
 
 
 
-<!-- Modal para Usuario -->
+<!-- Modal para crear nuevo Usuario -->
     <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalUsuarioLabel">Formulario de registro de Usuarios</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="mb-3">
-                            <label for="Tipo de documento" class="form-label">Tipo de documento</label>
-                            <select class="form-select" id="Tipo de documento" required>
+                            <label for="rol_id" class="form-label">Tipo de rol</label>
+                                <select class="form-select" id="rol_id" required>
+                                    <option value="">Seleccione un tipo de rol</option>
+                                    <option value="1">admin</option>
+                                    <option value="2">patio1</option>
+                                    <option value="3">patio2</option>
+                                    <option value="4">contabilidad</option>
+                                </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="documento_id" class="form-label">Tipo de documento</label>
+                            <select class="form-select" id="documento_id" required>
                                 <option value="">Seleccione un tipo de documento</option>
                                 <option value="1">Cedula de Ciudadania</option>
                                 <option value="2">Cedula de Extranjeria</option>
@@ -316,16 +323,16 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="identificacionUsuario" class="form-label">N° de identificación</label>
-                            <input type="text" class="form-control" id="identificacionUsuario" placeholder="Ingrese su identificación" required>
+                            <label for="cedula" class="form-label">N° de identificación</label>
+                            <input type="text" class="form-control" id="cedula" placeholder="Ingrese su identificación" required>
                         </div>
                         <div class="mb-3">
-                            <label for="nombreUsuario" class="form-label">Nombres</label>
-                            <input type="text" class="form-control" id="nombreUsuario" placeholder="Ingrese sus nombres" required>
+                            <label for="nombres" class="form-label">Nombres</label>
+                            <input type="text" class="form-control" id="nombres" placeholder="Ingrese sus nombres" required>
                         </div>
                         <div class="mb-3">
-                            <label for="apellidoUsuario" class="form-label">Apellidos</label>
-                            <input type="text" class="form-control" id="apellidoUsuario" placeholder="Ingrese sus apellidos" required>
+                            <label for="apellidos" class="form-label">Apellidos</label>
+                            <input type="text" class="form-control" id="apellidos" placeholder="Ingrese sus apellidos" required>
                         </div>
                         <div class="mb-3">
                             <label for="correo" class="form-label">Correo Electrónico</label>
@@ -333,22 +340,14 @@
                         </div>
                         <div class="mb-3">
                             <label for="contraseña" class="form-label">Contraseña</label>
-                            <input type="email" class="form-control" id="contraseñausuario" placeholder="Ingrese su Contraseña" required>
+                            <input type="email" class="form-control" id="contraseña" placeholder="Ingrese su Contraseña" required>
                         </div>
                         <div class="mb-3">
                             <label for="celular" class="form-label">Celular</label>
-                            <input type="tel" class="form-control" id="celularUsuario" placeholder="Ingrese su número de Celular" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="rolUsuario" class="form-label">Rol</label>
-                            <select class="form-select" id="rolUsuario" required>
-                                <option value="">Seleccione un rol</option>
-                                <option value="1">Administrador</option>
-                                <option value="2">Patio</option>
-                                <option value="3">Contabilidad</option>
-                            </select>
+                            <input type="tel" class="form-control" id="celular" placeholder="Ingrese su número de Celular" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="button" class="btn btn-danger">Cancelar</button>
                     </form>
                 </div>
             </div>
