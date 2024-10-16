@@ -253,7 +253,7 @@
         };
 
         document.addEventListener("DOMContentLoaded", function(){
-            const form = document.getElementById("userCreateForm");
+            const form = document.getElementById("createuser");
 
             form.addEventListener("submit", function (event) {
                 event.preventDefault();
@@ -268,6 +268,11 @@
                     contraseña: document.getElementById("contraseña").value,
                     celular: document.getElementById("celular").value
                 };
+                console.log("Datos enviados:", JSON.stringify(newuser));
+                console.log("rol_id:", document.getElementById("rol_id").value);
+                console.log("documento_id:", document.getElementById("documento_id").value);
+                console.log("cedula:", document.getElementById("cedula").value);
+
                 crearusuario(newuser);
             });
         });
@@ -336,7 +341,7 @@
                     <h5 class="modal-title" id="modalUsuarioLabel">Formulario de registro de Usuarios</h5>
                 </div>
                 <div class="modal-body">
-                    <form id="userCreateForm">
+                    <form id="createuser">
                         <div class="mb-3">
                             <label for="rol_id" class="form-label">Tipo de rol</label>
                             <input type="text" class="form-control" id="rol_id" placeholder="Ingrese su tipo de rol" required>
