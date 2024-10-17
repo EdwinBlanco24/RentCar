@@ -1,4 +1,5 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, EmailStr
+
 
 class UsersCreate(BaseModel):
     rol_id: int

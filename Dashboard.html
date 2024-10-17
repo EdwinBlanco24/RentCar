@@ -258,30 +258,37 @@
             form.addEventListener("submit", function (event) {
                 event.preventDefault();
 
-                const newuser = {
-                    rol_id: parseInt(document.getElementById("rol_id").value),
-                    documento_id: parseInt(document.getElementById("documento_id").value),
-                    cedula: document.getElementById("cedula").value,
-                    nombres: document.getElementById("nombres").value,
-                    apellidos: document.getElementById("apellidos").value,
-                    correo: document.getElementById("correo").value,
-                    contraseña: document.getElementById("contraseña").value,
-                    celular: document.getElementById("celular").value
-                };
-                console.log("Datos enviados:", JSON.stringify(newuser));
-                console.log("rol_id:", document.getElementById("rol_id").value);
-                console.log("documento_id:", document.getElementById("documento_id").value);
-                console.log("cedula:", document.getElementById("cedula").value);
+                const rol_id = document.getElementById("rol_id").value;
+                const documento_id = document.getElementById("documento_id").value;
+                const cedula = document.getElementById("cedula").value;
+                const nombres = document.getElementById("nombres").value;
+                const apellidos = document.getElementById("apellidos").value;
+                const correo = document.getElementById("correo").value;
+                const contraseña = document.getElementById("contraseña").value;
+                const celular = document.getElementById("celular").value;
 
-                crearusuario(newuser);
+
+                const data = {
+                    rol_id: parseInt(rol_id),
+                    documento_id: parseInt(documento_id),
+                    cedula: cedula,
+                    nombres: nombres,
+                    apellidos: apellidos,
+                    correo: correo,
+                    contraseña: contraseña,
+                    celular: celular
+                };
+                console.log("Datos enviados:", JSON.stringify(data));
+
+                crearusuario(data);
             });
         });
 
-        function crearusuario(newuser){
+        function crearusuario(data){
             axios({
                 method: 'POST',
                 url: 'http://127.0.0.1:8000/users/create_users',
-                data: newuser,
+                data: data,
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -334,7 +341,7 @@
 
 
 <!-- Modal para crear nuevo Usuario -->
-    <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
+    <div class="modal" id="modalUsuario" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -364,7 +371,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="correo" class="form-label">Correo Electrónico</label>
-                            <input type="email" class="form-control" id="correo" placeholder="Ingrese su correo electrónico" required>
+                            <input type="text" class="form-control" id="correo" placeholder="Ingrese su correo electrónico" required>
                         </div>
                         <div class="mb-3">
                             <label for="contraseña" class="form-label">Contraseña</label>

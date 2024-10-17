@@ -21,12 +21,12 @@ def leer():
 
 @app.post("/login")
 def login(dato: Login):
-    if dato.correo == 'H@TEST' and dato.contraseña == 'H123':
+    if dato.correo == 'BBB@TEST' and dato.contraseña == 'BBB':
         return {
             'status': 'success',
             'message': 'Datos correctos!',
             'data': {
-                'user_id': 2
+                'user_id': 3
             }
         },200
 
@@ -81,7 +81,7 @@ async def create_users(users: UsersCreate):
     try:
         cursor.execute(query, values)
         connection.commit()
-        return {"message": "Usuario creado exitosomente"},201
+        return {"message": "Usuario creado exitosomente"},200
     except mysql.connector.Error as err:
         raise HTTPException(status_code=500, detail=f"Error al guardar el usuario! : {err}")
     except ValueError as e:
