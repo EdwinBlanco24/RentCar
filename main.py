@@ -1,5 +1,6 @@
 import mysql.connector
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from core.connection import connection
 from models.users import UsersCreate, Clients, Login, UsersUpdt
@@ -21,19 +22,25 @@ def leer():
 
 @app.post("/login")
 def login(dato: Login):
-    if dato.correo == 'BBB@TEST' and dato.contraseña == 'BBB':
-        return {
-            'status': 'success',
-            'message': 'Datos correctos!',
-            'data': {
-                'user_id': 3
-            }
-        },200
+    if (dato.correo == 'H@TEST' and dato.contraseña == 'H123'):
+        return JSONResponse(
+            content={
+                'status': 'success',
+                'message': 'Datos correctos!',
+                'data': {
+                    'user_id': 4
+                }
+            },
+            status_code=200
+        )
 
-    return {
-        'status': 'Error',
-        'message': 'Usuario o contraseña incorrectos!'
-    },400
+    return JSONResponse(
+        content={
+            'status': 'Error',
+            'message': 'Usuario o contraseña incorrectos!'
+        },
+        status_code=400
+    )
 
 #CRUD users
 #Obtener todos los users
