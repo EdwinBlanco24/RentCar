@@ -116,12 +116,10 @@
                 <h4 class="text-center text-white">Menú</h4>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="/Dashboard.html" data-toggle="modal"
-                            data-target="#userModal">Usuarios</a>
+                        <a class="nav-link" href="/Dashboard.html">Usuarios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Clientes.html" data-toggle="modal"
-                            data-target="#clientModal">Clientes</a>
+                        <a class="nav-link" href="/Clientes.html">Clientes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-toggle="modal" data-target="#reservationModal">Reservas</a>
@@ -137,7 +135,7 @@
             <h1 class="h2">Panel Principal de Clientes!</h1>
 
             <h2 class="mt-4 d-flex align-items-center">Clientes
-                <button class="btn btn-primary btn-sm ml-3" data-bs-toggle="modal" data-bs-target="#modalUsuario">Nuevo
+                <button class="btn btn-primary btn-sm ml-3" data-bs-toggle="modalclient" data-bs-target="#modalclient">Nuevo
                     Cliente</button>
             </h2>
 
@@ -187,8 +185,8 @@
                     const row = document.createElement('tr')
                     row.innerHTML = '<td>' + element.cliente_id + '</td><td>' + element.cedula + '</td><td>' + element.nombres + '</td><td>' + element.apellidos + '</td><td>' + element.correo + '</td><td>' + element.celular + '</td><td>' + element.estado_rg + '</td>' +
                         '<td>' +
-                        '<button class="btn btn-danger mr-2" onclick="eliminarcliente(' + element.usuario_id + ')">Eliminar</button> ' +
-                        '<button id="openModalBtn" class="btn btn-primary" onclick="openUpdate(' + element.usuario_id + ')">Actualizar</button>' +
+                        '<button class="btn btn-danger mr-2" onclick="eliminarcliente(' + element.cliente_id + ')">Eliminar</button> ' +
+                        '<button id="openModalBtn" class="btn btn-primary" onclick="openUpdate(' + element.cliente_id + ')">Actualizar</button>' +
                         '</td>';
                     users.appendChild(row)
                 })
@@ -197,13 +195,14 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            const modal = document.getElementById("updateModal");
-            const form = document.getElementById("userUpdateForm");
+            const modal = document.getElementById("updateModalclient");
+            const form = document.getElementById("clientUpdateForm");
 
             form.addEventListener("submit", (event) => {
                 event.preventDefault();
                 const userData = {
                     cliente_id: form.cliente_id.value,
+                    documento_id: form.documento_id.value,
                     cedula: form.cedula.value,
                     nombres: form.nombres.value,
                     apellidos: form.apellidos.value,
@@ -215,14 +214,15 @@
         });
 
         function openUpdate(cliente_id) {
-            const modal = document.getElementById("updateModal");
-            const form = document.getElementById("userUpdateForm");
+            const modal = document.getElementById("updateModalclient");
+            const form = document.getElementById("clientUpdateForm");
 
-            axios.get('http://127.0.0.1:8000/client/get_client/' + cliente_id)
+            axios.get('http://127.0.0.1:8000/clients/get_client/' + cliente_id)
                 .then(function (response) {
                     const user = response.data;
 
                     form.cliente_id.value = user.cliente_id;
+                    form.documento_id.value = user.documento_id;
                     form.cedula.value = user.cedula;
                     form.nombres.value = user.nombres;
                     form.apellidos.value = user.apellidos;
@@ -237,10 +237,10 @@
         }
 
         function actualizarcliente(cliente_id, userData) {
-            const modal = document.getElementById("updateModal");
+            const modal = document.getElementById("updateModalclient");
             axios({
                 method: 'PUT',
-                url: 'http://127.0.0.1:8000/client/updt_client/' + cliente_id,
+                url: 'http://127.0.0.1:8000/clients/updt_clients/' + cliente_id,
                 data: userData
             }).then(function (response) {
                 alert('Cliente actualizado exitosamente');
@@ -254,7 +254,7 @@
         function eliminarcliente(cliente_id) {
             axios({
                 method: 'PUT',
-                url: 'http://127.0.0.1:8000/client/dlt_client/' + cliente_id
+                url: 'http://127.0.0.1:8000/clients/dlt_clients/' + cliente_id
             }).then(function (response) {
                 alert('Cliente eliminado exitosamente');
                 location.reload();
@@ -305,11 +305,11 @@
     </script>
 
     <!-- Modal para actualizar clientes -->
-    <div id="updateModal" class="modal" style="display: none;">
+    <div id="updateModalclient" class="modal" style="display: none;">
         <div class="modal-dialog"></div>
         <div class="modal-content">
             <h3>Actualizar Cliente</h3>
-            <form id="userUpdateForm">
+            <form id="clientUpdateForm">
                 <label for="cliente_id">Id cliente:</label>
                 <input type="text" id="cliente_id" disabled>
 
@@ -337,7 +337,7 @@
 
 
     <!-- Modal para crear nuevo cliente -->
-    <div class="modal" id="modal" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
+    <div class="modal" id="modalclient" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
