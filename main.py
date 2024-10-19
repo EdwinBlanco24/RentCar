@@ -3,7 +3,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from core.connection import connection
-from models.users import UsersCreate, Clients, Login, UsersUpdt
+from models.users import UsersCreate, Login, UsersUpdt
+from models.clients import Clients
 
 app = FastAPI()
 
@@ -129,10 +130,11 @@ async def dlt_users(usuario_id: int):
     finally:
         cursor.close()
 
-
-
+#////////////////////////////////////////////////////////////////////////////////
+#////////////////////////////////////////////////////////////////////////////////
 
 #CRUD clients
+#Obtener todos los clients
 @app.get('/clients/get_all_clients')
 async def get_clients():
     cursor = connection.cursor(dictionary=True)
@@ -140,15 +142,32 @@ async def get_clients():
 
     try:
         cursor.execute(query)
-        users = cursor.fetchall()
-        assert isinstance(users, object)
-        return users
+        clients = cursor.fetchall()
+        assert isinstance(clients, object)
+        return clients
     except mysql.connector.Error as er:
         raise HTTPException(status_code=500, detail=f"Error de conexion con Db MySql : {er}")
     finally:
         cursor.close()
 
+#Obtener client para actualizar
+@app.get('/clients/get_client/{cliente_id}')
+async def get_client(cliente_id: int):
+    cursor = connection.cursor(dictionary=True)
+    query = "SELECT * FROM clientes WHERE usuario_id = %s"
 
+    try:
+        cursor.execute(query, (cliente_id,))
+        client = cursor.fetchone()
+        if client is None:
+            raise HTTPException(status_code=404, detail="Cliente no encontrado")
+        return client
+    except mysql.connector.Error as er:
+        raise HTTPException(status_code=500, detail=f"Error de conexion con Db MySql : {er}")
+    finally:
+        cursor.close()
+
+#Crear clients
 @app.post('/clients/create_clients')
 async def create_clients(clients: Clients):
     cursor = connection.cursor()
@@ -168,9 +187,9 @@ async def create_clients(clients: Clients):
     finally:
         cursor.close()
 
-
+#Actualizar clients
 @app.put('/clients/updt_clients/{cliente_id}')
-async def create_users(clients: Clients, cliente_id: int):
+async def updt_clients(clients: Clients, cliente_id: int):
     cursor = connection.cursor()
     query = "UPDATE clientes SET (nombres, apellidos, correo, celular, fecha_md) VALUES (%s, %s, %s, %s, fecha_md = current_timestamp) where cliente_id = %s"
 
@@ -183,5 +202,20 @@ async def create_users(clients: Clients, cliente_id: int):
         raise HTTPException(status_code=500, detail=f"Error al actualizar el cliente! : {err}")
     except ValueError as e:
         raise HTTPException(status_code=400, detail=f"Error en el tipo de dato! : {e}")
+    finally:
+        cursor.close()
+
+#"Eliminar" clients
+@app.put('/clients/dlt_clients/{cliente_id}')
+async def dlt_clients(cliente_id: int):
+    cursor = connection.cursor()
+    query = "UPDATE clientes SET estado_rg = 0 WHERE usuario_id = %s"
+
+    try:
+        cursor.execute(query, (cliente_id,))
+        connection.commit()
+        return {"message": "Cliente eliminado exitosomente"},201
+    except mysql.connector.Error as err:
+        raise HTTPException(status_code=500, detail=f"Error al actualizar el usuario! : {err}")
     finally:
         cursor.close()

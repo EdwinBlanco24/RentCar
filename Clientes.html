@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Clientes</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -134,27 +134,26 @@
         </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-5">
-            <h1 class="h2">Panel Principal de Usuarios!</h1>
+            <h1 class="h2">Panel Principal de Clientes!</h1>
 
-            <h2 class="mt-4 d-flex align-items-center">Usuarios
+            <h2 class="mt-4 d-flex align-items-center">Clientes
                 <button class="btn btn-primary btn-sm ml-3" data-bs-toggle="modal" data-bs-target="#modalUsuario">Nuevo
-                    Usuario</button>
+                    Cliente</button>
             </h2>
 
-            <div class="collapse" id="usuariosMenu">
+            <div class="collapse" id="clientesMenu">
 
             </div>
 
             <div class="table-responsive small">
                 <table class="table table-striped table-sm">
-                    <tbody id="users">
+                    <tbody id="clients">
                         <tr>
                             <th scope="col">Id</th>
                             <th scope="col">Cedula</th>
                             <th scope="col">Nombres</th>
                             <th scope="col">Apellidos</th>
                             <th scope="col">Correo</th>
-                            <th scope="col">Contraseña</th>
                             <th scope="col">Celular</th>
                             <th scope="col">Estado</th>
                             <th scope="col">Opciones de edición</th>
@@ -181,15 +180,15 @@
         window.onload = function () {
             axios({
                 method: 'GET',
-                url: 'http://127.0.0.1:8000/users/get_all_users'
+                url: 'http://127.0.0.1:8000/clients/get_all_clients'
             }).then(function (response) {
-                const users = document.getElementById('users');
+                const users = document.getElementById('clients');
                 response.data.forEach(element => {
                     const row = document.createElement('tr')
-                    row.innerHTML = '<td>' + element.usuario_id + '</td><td>' + element.cedula + '</td><td>' + element.nombres + '</td><td>' + element.apellidos + '</td><td>' + element.correo + '</td><td>' + element.contraseña + '</td><td>' + element.celular + '</td><td>' + element.estado_rg + '</td>' +
+                    row.innerHTML = '<td>' + element.cliente_id + '</td><td>' + element.cedula + '</td><td>' + element.nombres + '</td><td>' + element.apellidos + '</td><td>' + element.correo + '</td><td>' + element.celular + '</td><td>' + element.estado_rg + '</td>' +
                         '<td>' +
-                        '<button class="btn btn-danger mr-2" onclick="eliminarUsuario(' + element.usuario_id + ')">Eliminar</button> ' +
-                        '<button id="openModalBtn" class="btn btn-primary" onclick="openUpdateModal(' + element.usuario_id + ')">Actualizar</button>' +
+                        '<button class="btn btn-danger mr-2" onclick="eliminarcliente(' + element.usuario_id + ')">Eliminar</button> ' +
+                        '<button id="openModalBtn" class="btn btn-primary" onclick="openUpdate(' + element.usuario_id + ')">Actualizar</button>' +
                         '</td>';
                     users.appendChild(row)
                 })
@@ -204,112 +203,100 @@
             form.addEventListener("submit", (event) => {
                 event.preventDefault();
                 const userData = {
-                    usuario_id: form.usuario_id.value,
-                    rol_id: form.rol_id.value,
-                    documento_id: form.documento_id.value,
+                    cliente_id: form.cliente_id.value,
                     cedula: form.cedula.value,
                     nombres: form.nombres.value,
                     apellidos: form.apellidos.value,
                     correo: form.correo.value,
-                    contraseña: form.contraseña.value,
                     celular: form.celular.value,
                 };
-                actualizarUsuario(userData.usuario_id, userData)
+                actualizarcliente(userData.cliente_id, userData)
             });
         });
 
-        function openUpdateModal(usuario_id) {
+        function openUpdate(cliente_id) {
             const modal = document.getElementById("updateModal");
             const form = document.getElementById("userUpdateForm");
 
-            axios.get('http://127.0.0.1:8000/users/get_user/' + usuario_id)
+            axios.get('http://127.0.0.1:8000/client/get_client/' + cliente_id)
                 .then(function (response) {
                     const user = response.data;
 
-                    form.usuario_id.value = user.usuario_id;
-                    form.rol_id.value = user.rol_id;
-                    form.documento_id.value = user.documento_id;
+                    form.cliente_id.value = user.cliente_id;
                     form.cedula.value = user.cedula;
                     form.nombres.value = user.nombres;
                     form.apellidos.value = user.apellidos;
                     form.correo.value = user.correo;
-                    form.contraseña.value = user.contraseña;
                     form.celular.value = user.celular;
 
                     modal.style.display = 'block';
                 })
                 .catch(function (error) {
-                    alert('Error al obtener los datos del usuario: ' + error);
+                    alert('Error al obtener los datos del cliente: ' + error);
                 });
         }
 
-        function actualizarUsuario(usuario_id, userData) {
+        function actualizarcliente(cliente_id, userData) {
             const modal = document.getElementById("updateModal");
             axios({
                 method: 'PUT',
-                url: 'http://127.0.0.1:8000/users/updt_users/' + usuario_id,
+                url: 'http://127.0.0.1:8000/client/updt_client/' + cliente_id,
                 data: userData
             }).then(function (response) {
-                alert('Usuario actualizado exitosamente');
+                alert('Cliente actualizado exitosamente');
                 modal.style.display = "none";
                 location.reload();
             }).catch(function (error) {
-                alert('Error al actualizar el usuario: ' + error);
+                alert('Error al actualizar los datos del cliente: ' + error);
             });
         }
 
-        function eliminarUsuario(usuario_id) {
+        function eliminarcliente(cliente_id) {
             axios({
                 method: 'PUT',
-                url: 'http://127.0.0.1:8000/users/dlt_users/' + usuario_id
+                url: 'http://127.0.0.1:8000/client/dlt_client/' + cliente_id
             }).then(function (response) {
-                alert('Usuario eliminado exitosamente');
+                alert('Cliente eliminado exitosamente');
                 location.reload();
             }).catch(function (error) {
-                alert('Error al eliminar el usuario: ' + error);
+                alert('Error al eliminar el cliente: ' + error);
             });
         };
 
-        function guardarUsuario() {
-            const rol_id = parseInt(document.getElementById("rol_id").value);
-            const documento_id = parseInt(document.getElementById("documento_id").value);
+        function guardarcliente() {
             const cedula = document.getElementById("cedula").value.trim();
             const nombres = document.getElementById("nombres").value.trim();
             const apellidos = document.getElementById("apellidos").value.trim();
             const correo = document.getElementById("correo").value.trim();
-            const contraseña = document.getElementById("contraseña").value.trim();
             const celular = document.getElementById("celular").value.trim();
 
-            if (!rol_id || !documento_id || !cedula || !nombres || !apellidos || !correo || !contraseña || !celular) {
+            if (!cedula || !nombres || !apellidos || !correo || !celular) {
                 alert("Todos los campos son obligatorios.");
                 return;
             }
             const data = {
-                rol_id: parseInt(rol_id),
-                documento_id: parseInt(documento_id),
                 cedula: cedula,
                 nombres: nombres,
                 apellidos: apellidos,
                 correo: correo,
-                contraseña: contraseña,
                 celular: celular
             };
             console.log("Datos enviados:", JSON.stringify(data));
 
-            crearusuario(data);
+            crearcliente(data);
         }
 
-        function crearusuario(data) {
+        function crearcliente(data) {
             axios({
                 method: 'POST',
-                url: 'http://127.0.0.1:8000/users/create_users',
+                url: 'http://127.0.0.1:8000/client/create_client',
                 data: data,
                 headers: {
                     'Content-Type': 'application/json'
                 }
             }).then(function (response) {
                 if (error.response && error.response.data && error.response.data.detail) {
-                    alert('Error al crear el usuario: ' + JSON.stringify(error.response.data.detail));
+                    alert('Error al crear el cliente: ' + JSON.stringify(error.response.data.detail));
                 } else {
                     alert('Error desconocido');
                 }
@@ -317,20 +304,14 @@
         }
     </script>
 
-    <!-- Modal para actualizar Usuarios -->
+    <!-- Modal para actualizar clientes -->
     <div id="updateModal" class="modal" style="display: none;">
         <div class="modal-dialog"></div>
         <div class="modal-content">
-            <h3>Actualizar Usuario</h3>
+            <h3>Actualizar Cliente</h3>
             <form id="userUpdateForm">
-                <label for="usuario_id">Id Usuario:</label>
-                <input type="text" id="usuario_id" disabled>
-
-                <label for="rol_id">Rol:</label>
-                <input type="text" id="rol_id"><br>
-
-                <label for="documento_id">tipo de documento:</label>
-                <input type="text" id="documento_id"><br>
+                <label for="cliente_id">Id cliente:</label>
+                <input type="text" id="cliente_id" disabled>
 
                 <label for="cedula">Cedula:</label>
                 <input type="text" id="cedula"><br>
@@ -344,9 +325,6 @@
                 <label for="correo">Correo:</label>
                 <input type="email" id="correo"><br>
 
-                <label for="contraseña">Contraseña:</label>
-                <input type="text" id="contraseña"><br>
-
                 <label for="celular">Celular:</label>
                 <input type="text" id="celular"><br>
 
@@ -358,34 +336,15 @@
     </div>
 
 
-    <!-- Modal para crear nuevo Usuario -->
-    <div class="modal" id="modalUsuario" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
+    <!-- Modal para crear nuevo cliente -->
+    <div class="modal" id="modal" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalUsuarioLabel">Formulario de registro de Usuarios</h5>
+                    <h5 class="modal-title" id="modalclienteLabel">Formulario de registro de clientes</h5>
                 </div>
                 <div class="modal-body">
-                    <form id="createuser">
-                        <div class="form-group">
-                            <label for="rol_id">Tipo de Rol</label>
-                            <select class="form-select" id="rol_id" required>
-                                <option>Seleccione un tipo de rol</option>
-                                <option id="rol_id" value="1">admin</option>
-                                <option id="rol_id" value="2">patio1</option>
-                                <option id="rol_id" value="3">patio2</option>
-                                <option id="rol_id" value="4">contabilidad</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="documento_id">Tipo de documento</label>
-                            <select class="form-select" id="documento_id" required>
-                                <option>Seleccione un tipo de documento</option>
-                                <option id="documento_id" value="1">Cedula de Ciudadania</option>
-                                <option id="documento_id" value="2">Cedula de Extranjeria</option>
-                                <option id="documento_id" value="3">NIT</option>
-                            </select>
-                        </div>
+                    <form id="createclients">
                         <div class="form-group">
                             <label for="cedula">Cedula</label>
                             <input type="text" class="form-control" id="cedula" placeholder="cedula">
@@ -405,11 +364,6 @@
                             <small id="emailHelp" class="form-text text-muted">Nunca compartiremos tu correo electrónico con nadie.</small>
                         </div>
                         <div class="form-group">
-                            <label for="contraseña">Contraseña</label>
-                            <input type="password" class="form-control" id="contraseña"
-                                placeholder="Contraseña">
-                        </div>
-                        <div class="form-group">
                             <label for="celular">Celular</label>
                             <input type="text" class="form-control" id="celular" placeholder="Celular">
                         </div>
@@ -417,7 +371,7 @@
                             <input type="checkbox" class="form-check-input" id="exampleCheck1">
                             <label class="form-check-label" for="exampleCheck1">Check me out</label>
                         </div>
-                        <button type="submit" class="btn btn-primary" onclick="guardarUsuario()">Guardar</button>
+                        <button type="submit" class="btn btn-primary" onclick="guardarcliente()">Guardar</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                     </form>
                 </div>
