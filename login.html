@@ -82,8 +82,9 @@
 <body class="text-center">
     <main class="form-signin">
         <form>
-          
-          <h1 class="h3 mb-3 fw-normal">Iniciar Sesión</h1>
+
+            <h1 class="h1 mb-3 fw-normal">Rent Car <br> Half Moon</h1><br>
+            <h1 class="h3 mb-3 fw-normal">Iniciar Sesión</h1>
       
           <div class="form-floating mb-3">
             <input type="text" class="form-control" id="correo" placeholder="H@TEST">
@@ -121,6 +122,7 @@
                 }
             }).then(function (response) {
                 if (response.data.status == 'success') {
+                    {alert('Inicio de sesión exitoso!')}
                     window.location = 'Dashboard.html';
                 }else{
                     alert('Error de autenticación, ' + response.data.message)
