@@ -138,7 +138,7 @@ async def dlt_users(usuario_id: int):
 @app.get('/clients/get_all_clients')
 async def get_clients():
     cursor = connection.cursor(dictionary=True)
-    query = "SELECT * FROM clientes"
+    query = "SELECT * FROM clientes WHERE estado_rg = 1"
 
     try:
         cursor.execute(query)
@@ -154,7 +154,7 @@ async def get_clients():
 @app.get('/clients/get_client/{cliente_id}')
 async def get_client(cliente_id: int):
     cursor = connection.cursor(dictionary=True)
-    query = "SELECT * FROM clientes WHERE usuario_id = %s"
+    query = "SELECT * FROM clientes WHERE cliente_id = %s"
 
     try:
         cursor.execute(query, (cliente_id,))
@@ -209,13 +209,13 @@ async def updt_clients(clients: Clients, cliente_id: int):
 @app.put('/clients/dlt_clients/{cliente_id}')
 async def dlt_clients(cliente_id: int):
     cursor = connection.cursor()
-    query = "UPDATE clientes SET estado_rg = 0 WHERE usuario_id = %s"
+    query = "UPDATE clientes SET estado_rg = 0 WHERE cliente_id = %s"
 
     try:
         cursor.execute(query, (cliente_id,))
         connection.commit()
         return {"message": "Cliente eliminado exitosomente"},201
     except mysql.connector.Error as err:
-        raise HTTPException(status_code=500, detail=f"Error al actualizar el usuario! : {err}")
+        raise HTTPException(status_code=500, detail=f"Error al eliminar el cliente! : {err}")
     finally:
         cursor.close()
