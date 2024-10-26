@@ -223,14 +223,14 @@
                 .then(function (response) {
                     const user = response.data;
 
-                    form.cliente_id.value = client.cliente_id;
-                    form.documento_id.value = client.documento_id;
-                    form.cedula.value = client.cedula;
-                    form.nombres.value = client.nombres;
-                    form.apellidos.value = client.apellidos;
-                    form.correo.value = client.correo;
-                    form.celular.value = client.celular;
-                    form.reserva_id.value = client.reserva_id;
+                    form.cliente_id.value = user.cliente_id;
+                    form.documento_id.value = user.documento_id;
+                    form.cedula.value = user.cedula;
+                    form.nombres.value = user.nombres;
+                    form.apellidos.value = user.apellidos;
+                    form.correo.value = user.correo;
+                    form.celular.value = user.celular;
+                    form.reserva_id.value = user.reserva_id;
 
                     modal.style.display = 'block';
                 })
@@ -338,7 +338,7 @@
                 <input type="text" id="celular"><br>
 
                 <label for="reserva_id">Numero de la reserva:</label>
-                <input type="text" id="reserva_id"><br>
+                <input type="text" id="reserva_id" disabled><br>
 
                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
