@@ -327,7 +327,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,1,1,'2222','aaaa','bbbbb','H@TEST','H123','8888888',_binary '','2024-10-10 15:20:02','2024-10-18 16:08:29'),(2,1,1,'string','string','string','BBB@TEST','BBB','string',_binary '','2024-10-11 14:38:20','2024-10-17 18:28:37');
+INSERT INTO `usuarios` VALUES (1,1,1,'2222','aaaa','bbbbb','H@TEST','H123','8888888',_binary '','2024-10-10 15:20:02','2024-10-18 16:08:29');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
