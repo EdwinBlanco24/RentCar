@@ -12,9 +12,12 @@ pip install -r requirements.txt
 4. Ejecución del servidor
 uvicorn main:app --reload
 5. Configuración de la conexión a la base de datos en MySQL:
-   ![image](https://github.com/user-attachments/assets/f08ad5c6-3c09-4a2f-9479-d168c210807d)
+   
+![image](https://github.com/user-attachments/assets/f08ad5c6-3c09-4a2f-9479-d168c210807d)
  
 
 6.  Usuario para iniciar sesión en el Dashboard
 usuario: H@TEST
 contraseña: H123
+![image](https://github.com/user-attachments/assets/986a56d8-e431-4417-b24f-63892cb85bb6)
+
