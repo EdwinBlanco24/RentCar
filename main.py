@@ -81,10 +81,10 @@ async def get_user(usuario_id: int):
 @app.post('/users/create_users')
 async def create_users(users: UsersCreate):
     cursor = connection.cursor()
-    query = "INSERT INTO usuarios (rol_id, documento_id, cedula, nombres, apellidos, correo, contraseña, celular) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+    query = "INSERT INTO usuarios (cedula, nombres, correo, contraseña, celular) VALUES (%s, %s, %s, %s, %s)"
 
     values = (
-        users.rol_id, users.documento_id, users.cedula, users.nombres, users.apellidos, users.correo, users.contraseña,
+        users.cedula, users.nombres, users.correo, users.contraseña,
         users.celular)
     try:
         cursor.execute(query, values)
@@ -101,9 +101,9 @@ async def create_users(users: UsersCreate):
 @app.put('/users/updt_users/{usuario_id}')
 async def updt_users(usuario_id: int, users: UsersUpdt):
     cursor = connection.cursor()
-    query = "UPDATE usuarios SET rol_id = %s, documento_id = %s, cedula = %s, nombres = %s, apellidos = %s, correo = %s, contraseña = %s, celular = %s, fecha_md = current_timestamp where usuario_id = %s"
+    query = "UPDATE usuarios SET cedula = %s, nombres = %s, correo = %s, contraseña = %s, celular = %s, fecha_md = current_timestamp where usuario_id = %s"
 
-    values = (users.rol_id, users.documento_id, users.cedula, users.nombres, users.apellidos, users.correo, users.contraseña, users.celular, users.usuario_id)
+    values = (users.cedula, users.nombres, users.correo, users.contraseña, users.celular, users.usuario_id)
     try:
         cursor.execute(query, values)
         connection.commit()
@@ -171,11 +171,10 @@ async def get_client(cliente_id: int):
 @app.post('/clients/create_clients')
 async def create_clients(clients: Clients):
     cursor = connection.cursor()
-    query = "INSERT INTO clientes (documento_id, cedula, nombres, apellidos, correo, celular, reserva_id) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+    query = "INSERT INTO clientes (cedula, nombres, correo, celular) VALUES (%s, %s, %s, %s)"
 
     values = (
-        clients.documento_id, clients.cedula, clients.nombres, clients.apellidos, clients.correo, clients.celular,
-        clients.reserva_id)
+        clients.cedula, clients.nombres, clients.correo, clients.celular)
     try:
         cursor.execute(query, values)
         connection.commit()
@@ -191,9 +190,9 @@ async def create_clients(clients: Clients):
 @app.put('/clients/updt_clients/{cliente_id}')
 async def updt_clients(cliente_id: int, clients: ClientsUpdt):
     cursor = connection.cursor()
-    query = "UPDATE clientes SET documento_id = %s, nombres = %s, apellidos = %s, correo = %s, celular = %s, fecha_md = current_timestamp where cliente_id = %s"
+    query = "UPDATE clientes SET cedula = %s, nombres = %s, correo = %s, celular = %s, fecha_md = current_timestamp where cliente_id = %s"
 
-    values = (clients.documento_id, clients.nombres, clients.apellidos, clients.correo,clients.celular, clients.cliente_id)
+    values = (clients.cedula, clients.nombres, clients.correo,clients.celular, clients.cliente_id)
     try:
         cursor.execute(query, values)
         connection.commit()

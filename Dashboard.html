@@ -152,7 +152,6 @@
                             <th scope="col">Id</th>
                             <th scope="col">Cedula</th>
                             <th scope="col">Nombres</th>
-                            <th scope="col">Apellidos</th>
                             <th scope="col">Correo</th>
                             <th scope="col">Contraseña</th>
                             <th scope="col">Celular</th>
@@ -186,7 +185,7 @@
                 const users = document.getElementById('users');
                 response.data.forEach(element => {
                     const row = document.createElement('tr')
-                    row.innerHTML = '<td>' + element.usuario_id + '</td><td>' + element.cedula + '</td><td>' + element.nombres + '</td><td>' + element.apellidos + '</td><td>' + element.correo + '</td><td>' + element.contraseña + '</td><td>' + element.celular + '</td><td>' + element.estado_rg + '</td>' +
+                    row.innerHTML = '<td>' + element.usuario_id + '</td><td>' + element.cedula + '</td><td>' + element.nombres + '</td><td>' + element.correo + '</td><td>' + element.contraseña + '</td><td>' + element.celular + '</td><td>' + element.estado_rg + '</td>' +
                         '<td>' +
                         '<button class="btn btn-danger mr-2" onclick="eliminarUsuario(' + element.usuario_id + ')">Eliminar</button> ' +
                         '<button id="openModalBtn" class="btn btn-primary" onclick="openUpdateModal(' + element.usuario_id + ')">Actualizar</button>' +
@@ -205,11 +204,8 @@
                 event.preventDefault();
                 const userData = {
                     usuario_id: form.usuario_id.value,
-                    rol_id: form.rol_id.value,
-                    documento_id: form.documento_id.value,
                     cedula: form.cedula.value,
                     nombres: form.nombres.value,
-                    apellidos: form.apellidos.value,
                     correo: form.correo.value,
                     contraseña: form.contraseña.value,
                     celular: form.celular.value,
@@ -227,11 +223,8 @@
                     const user = response.data;
 
                     form.usuario_id.value = user.usuario_id;
-                    form.rol_id.value = user.rol_id;
-                    form.documento_id.value = user.documento_id;
                     form.cedula.value = user.cedula;
                     form.nombres.value = user.nombres;
-                    form.apellidos.value = user.apellidos;
                     form.correo.value = user.correo;
                     form.contraseña.value = user.contraseña;
                     form.celular.value = user.celular;
@@ -271,25 +264,19 @@
         };
 
         function guardarUsuario() {
-            const rol_id = parseInt(document.getElementById("rol_id").value);
-            const documento_id = parseInt(document.getElementById("documento_id").value);
             const cedula = document.getElementById("cedula").value.trim();
             const nombres = document.getElementById("nombres").value.trim();
-            const apellidos = document.getElementById("apellidos").value.trim();
             const correo = document.getElementById("correo").value.trim();
             const contraseña = document.getElementById("contraseña").value.trim();
             const celular = document.getElementById("celular").value.trim();
 
-            if (!rol_id || !documento_id || !cedula || !nombres || !apellidos || !correo || !contraseña || !celular) {
+            if (!cedula || !nombres || !correo || !contraseña || !celular) {
                 alert("Todos los campos son obligatorios.");
                 return;
             }
             const data = {
-                rol_id: parseInt(rol_id),
-                documento_id: parseInt(documento_id),
                 cedula: cedula,
                 nombres: nombres,
-                apellidos: apellidos,
                 correo: correo,
                 contraseña: contraseña,
                 celular: celular
@@ -326,20 +313,11 @@
                 <label for="usuario_id">Id Usuario:</label>
                 <input type="text" id="usuario_id" disabled>
 
-                <label for="rol_id">Rol:</label>
-                <input type="text" id="rol_id"><br>
-
-                <label for="documento_id">tipo de documento:</label>
-                <input type="text" id="documento_id"><br>
-
                 <label for="cedula">Cedula:</label>
                 <input type="text" id="cedula"><br>
 
                 <label for="nombres">Nombres:</label>
                 <input type="text" id="nombres"><br>
-
-                <label for="apellidos">Apellidos:</label>
-                <input type="text" id="apellidos"><br>
 
                 <label for="correo">Correo:</label>
                 <input type="email" id="correo"><br>
@@ -367,36 +345,13 @@
                 </div>
                 <div class="modal-body">
                     <form id="createuser">
-                        <div class="form-group">
-                            <label for="rol_id">Tipo de Rol</label>
-                            <select class="form-select" id="rol_id" required>
-                                <option>Seleccione un tipo de rol</option>
-                                <option id="rol_id" value="1">admin</option>
-                                <option id="rol_id" value="2">patio1</option>
-                                <option id="rol_id" value="3">patio2</option>
-                                <option id="rol_id" value="4">contabilidad</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="documento_id">Tipo de documento</label>
-                            <select class="form-select" id="documento_id" required>
-                                <option>Seleccione un tipo de documento</option>
-                                <option id="documento_id" value="1">Cedula de Ciudadania</option>
-                                <option id="documento_id" value="2">Cedula de Extranjeria</option>
-                                <option id="documento_id" value="3">NIT</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
+                         <div class="form-group">
                             <label for="cedula">Cedula</label>
                             <input type="text" class="form-control" id="cedula" placeholder="cedula">
                         </div>
                         <div class="form-group">
                             <label for="nombres">Nombres</label>
                             <input type="text" class="form-control" id="nombres" placeholder="Nombres">
-                        </div>
-                        <div class="form-group">
-                            <label for="apellidos">Apellidos</label>
-                            <input type="text" class="form-control" id="apellidos" placeholder="Apellidos">
                         </div>
                         <div class="form-group">
                             <label for="correo">Correo</label>
@@ -412,10 +367,6 @@
                         <div class="form-group">
                             <label for="celular">Celular</label>
                             <input type="text" class="form-control" id="celular" placeholder="Celular">
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
                         </div>
                         <button type="submit" class="btn btn-primary" onclick="guardarUsuario()">Guardar</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>

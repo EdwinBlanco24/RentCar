@@ -150,10 +150,8 @@
                             <th scope="col">Id</th>
                             <th scope="col">Cedula</th>
                             <th scope="col">Nombres</th>
-                            <th scope="col">Apellidos</th>
                             <th scope="col">Correo</th>
                             <th scope="col">Celular</th>
-                            <th scope="col">N° de Reserva</th>
                             <th scope="col">Estado</th>
                             <th scope="col">Opciones de edición</th>
                         </tr>
@@ -184,7 +182,7 @@
                 const users = document.getElementById('clients');
                 response.data.forEach(element => {
                     const row = document.createElement('tr')
-                    row.innerHTML = '<td>' + element.cliente_id + '</td><td>' + element.cedula + '</td><td>' + element.nombres + '</td><td>' + element.apellidos + '</td><td>' + element.correo + '</td><td>' + element.celular + '</td><td>' + element.reserva_id + '</td><td>' + element.estado_rg + '</td>' +
+                    row.innerHTML = '<td>' + element.cliente_id + '</td><td>' + element.cedula + '</td><td>' + element.nombres + '</td><td>' + element.correo + '</td><td>' + element.celular + '</td><td>' + element.estado_rg + '</td>' +
                         '<td>' +
                         '<button class="btn btn-danger mr-2" onclick="eliminarcliente(' + element.cliente_id + ')">Eliminar</button> ' +
                         '<button id="openModalBtn" class="btn btn-primary" onclick="openUpdateModal(' + element.cliente_id + ')">Actualizar</button>' +
@@ -203,13 +201,10 @@
                 event.preventDefault();
                 const userData = {
                     cliente_id: form.cliente_id.value,
-                    documento_id: form.documento_id.value,
                     cedula: form.cedula.value,
                     nombres: form.nombres.value,
-                    apellidos: form.apellidos.value,
                     correo: form.correo.value,
                     celular: form.celular.value,
-                    reserva_id: form.reserva_id.value,
                 };
                 actualizarcliente(userData.cliente_id, userData)
             });
@@ -224,13 +219,10 @@
                     const user = response.data;
 
                     form.cliente_id.value = user.cliente_id;
-                    form.documento_id.value = user.documento_id;
                     form.cedula.value = user.cedula;
                     form.nombres.value = user.nombres;
-                    form.apellidos.value = user.apellidos;
                     form.correo.value = user.correo;
                     form.celular.value = user.celular;
-                    form.reserva_id.value = user.reserva_id;
 
                     modal.style.display = 'block';
                 })
@@ -269,23 +261,19 @@
         function guardarcliente() {
             const cedula = document.getElementById("cedula").value.trim();
             const nombres = document.getElementById("nombres").value.trim();
-            const apellidos = document.getElementById("apellidos").value.trim();
             const correo = document.getElementById("correo").value.trim();
             const celular = document.getElementById("celular").value.trim();
-            const reserva_id = document.getElementById("reserva_id").value.trim();
 
 
-            if (!cedula || !nombres || !apellidos || !correo || !celular || !reserva_id) {
+            if (!cedula || !nombres || !correo || !celular) {
                 alert("Todos los campos son obligatorios.");
                 return;
             }
             const data = {
                 cedula: cedula,
                 nombres: nombres,
-                apellidos: apellidos,
                 correo: correo,
-                celular: celular,
-                reserva_id: reserva_id
+                celular: celular
             };
             console.log("Datos enviados:", JSON.stringify(data));
 
@@ -319,26 +307,17 @@
                 <label for="cliente_id">Id cliente:</label>
                 <input type="text" id="cliente_id" disabled>
 
-                <label for="documento_id">tipo de documento:</label>
-                <input type="text" id="documento_id"><br>
-
                 <label for="cedula">Cedula:</label>
                 <input type="text" id="cedula"><br>
 
                 <label for="nombres">Nombres:</label>
                 <input type="text" id="nombres"><br>
 
-                <label for="apellidos">Apellidos:</label>
-                <input type="text" id="apellidos"><br>
-
                 <label for="correo">Correo:</label>
                 <input type="email" id="correo"><br>
 
                 <label for="celular">Celular:</label>
                 <input type="text" id="celular"><br>
-
-                <label for="reserva_id">N° de reserva:</label>
-                <input type="text" id="reserva_id" disabled><br>
 
                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
@@ -364,10 +343,6 @@
                         <div class="form-group">
                             <label for="nombres">Nombres</label>
                             <input type="text" class="form-control" id="nombres" placeholder="Nombres">
-                        </div>
-                        <div class="form-group">
-                            <label for="apellidos">Apellidos</label>
-                            <input type="text" class="form-control" id="apellidos" placeholder="Apellidos">
                         </div>
                         <div class="form-group">
                             <label for="correo">Correo</label>
