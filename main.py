@@ -81,11 +81,9 @@ async def get_user(usuario_id: int):
 @app.post('/users/create_users')
 async def create_users(users: UsersCreate):
     cursor = connection.cursor()
-    query = "INSERT INTO usuarios (cedula, nombres, correo, contraseña, celular) VALUES (%s, %s, %s, %s, %s)"
+    query = "INSERT INTO usuarios (correo, contraseña) VALUES (%s, %s)"
 
-    values = (
-        users.cedula, users.nombres, users.correo, users.contraseña,
-        users.celular)
+    values = (users.correo, users.contraseña)
     try:
         cursor.execute(query, values)
         connection.commit()
@@ -101,9 +99,9 @@ async def create_users(users: UsersCreate):
 @app.put('/users/updt_users/{usuario_id}')
 async def updt_users(usuario_id: int, users: UsersUpdt):
     cursor = connection.cursor()
-    query = "UPDATE usuarios SET cedula = %s, nombres = %s, correo = %s, contraseña = %s, celular = %s, fecha_md = current_timestamp where usuario_id = %s"
+    query = "UPDATE usuarios SET correo = %s, contraseña = %s, fecha_md = current_timestamp where usuario_id = %s"
 
-    values = (users.cedula, users.nombres, users.correo, users.contraseña, users.celular, users.usuario_id)
+    values = (users.correo, users.contraseña, users.usuario_id)
     try:
         cursor.execute(query, values)
         connection.commit()

@@ -116,18 +116,12 @@
                 <h4 class="text-center text-white">Menú</h4>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="/Dashboard.html" data-toggle="modal"
+                        <a class="nav-link" href="Dashboard.html" data-toggle="modal"
                             data-target="#userModal">Usuarios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Clientes.html" data-toggle="modal"
+                        <a class="nav-link" href="Clientes.html" data-toggle="modal"
                             data-target="#clientModal">Clientes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="modal" data-target="#reservationModal">Reservas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="modal" data-target="#paymentModal">Pagos</a>
                     </li>
                 </ul>
             </div>
@@ -137,7 +131,7 @@
             <h1 class="h2">Panel Principal de Usuarios!</h1>
 
             <h2 class="mt-4 d-flex align-items-center">Usuarios
-                <button class="btn btn-primary btn-sm ml-3" data-bs-toggle="modal" data-bs-target="#modalUsuario">Nuevo
+                <button class="btn btn-primary btn-sm ml-3" data-bs-toggle="modal" data-bs-target="#addUserModal">Nuevo
                     Usuario</button>
             </h2>
 
@@ -150,11 +144,8 @@
                     <tbody id="users">
                         <tr>
                             <th scope="col">Id</th>
-                            <th scope="col">Cedula</th>
-                            <th scope="col">Nombres</th>
                             <th scope="col">Correo</th>
                             <th scope="col">Contraseña</th>
-                            <th scope="col">Celular</th>
                             <th scope="col">Estado</th>
                             <th scope="col">Opciones de edición</th>
                         </tr>
@@ -185,7 +176,7 @@
                 const users = document.getElementById('users');
                 response.data.forEach(element => {
                     const row = document.createElement('tr')
-                    row.innerHTML = '<td>' + element.usuario_id + '</td><td>' + element.cedula + '</td><td>' + element.nombres + '</td><td>' + element.correo + '</td><td>' + element.contraseña + '</td><td>' + element.celular + '</td><td>' + element.estado_rg + '</td>' +
+                    row.innerHTML = '<td>' + element.usuario_id + '</td><td>' + element.correo + '</td><td>' + element.contraseña + '</td><td>' + element.estado_rg + '</td>' +
                         '<td>' +
                         '<button class="btn btn-danger mr-2" onclick="eliminarUsuario(' + element.usuario_id + ')">Eliminar</button> ' +
                         '<button id="openModalBtn" class="btn btn-primary" onclick="openUpdateModal(' + element.usuario_id + ')">Actualizar</button>' +
@@ -204,11 +195,8 @@
                 event.preventDefault();
                 const userData = {
                     usuario_id: form.usuario_id.value,
-                    cedula: form.cedula.value,
-                    nombres: form.nombres.value,
                     correo: form.correo.value,
                     contraseña: form.contraseña.value,
-                    celular: form.celular.value,
                 };
                 actualizarUsuario(userData.usuario_id, userData)
             });
@@ -223,11 +211,8 @@
                     const user = response.data;
 
                     form.usuario_id.value = user.usuario_id;
-                    form.cedula.value = user.cedula;
-                    form.nombres.value = user.nombres;
                     form.correo.value = user.correo;
                     form.contraseña.value = user.contraseña;
-                    form.celular.value = user.celular;
 
                     modal.style.display = 'block';
                 })
@@ -264,39 +249,33 @@
         };
 
         function agregarUsuario() {
-            const cedula = document.getElementById("newcedula").value;
-            const nombres = document.getElementById("newnombres").value;
             const correo = document.getElementById("newcorreo").value;
             const contraseña = document.getElementById("newcontraseña").value;
-            const celular = document.getElementById("newcelular").value;
-
-            if (!cedula || !nombres || !correo || !contraseña || !celular) {
-                alert("Todos los campos son obligatorios.");
-                return;
-            }
-
+            
             axios
-                .post("http://127.0.0.1:8000/users/create_users",{
-                    cedula: cedula,
-                    nombre: nombres,
+                .post("http://127.0.0.1:8000/users/create_users", {                    
                     correo: correo,
-                    contraseña: contraseña,
-                    celular: celular
+                    contraseña: contraseña
                 })
                 .then(function (response) {
                     alert("Usuario agregado correctamente");
-                    windows.onload;
+                    
                     const modalElement = document.getElementById('addUserModal');
                     const modalInstance = bootstrap.Modal.getInstance(modalElement);
                     modalInstance.hide();
 
                     resetAddUserForm();
+
+                    window.location.reload();
                 })
                 .catch(function (error) {
                     console.error("Error al agregar el usuario:", error);
                 });
-            })
+
+                function resetAddUserForm() {
+                document.getElementById("addUserForm").reset();
         }
+        };
     </script>
 
     <!-- Modal para actualizar Usuarios -->
@@ -308,20 +287,11 @@
                 <label for="usuario_id">Id Usuario:</label>
                 <input type="text" id="usuario_id" disabled>
 
-                <label for="cedula">Cedula:</label>
-                <input type="text" id="cedula"><br>
-
-                <label for="nombres">Nombres:</label>
-                <input type="text" id="nombres"><br>
-
                 <label for="correo">Correo:</label>
                 <input type="email" id="correo"><br>
 
                 <label for="contraseña">Contraseña:</label>
                 <input type="text" id="contraseña"><br>
-
-                <label for="celular">Celular:</label>
-                <input type="text" id="celular"><br>
 
                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
@@ -335,40 +305,29 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addUserModalLabel">Formulario de registro de Usuarios</h5>
+                    <h5 class="modal-title" id="addUserModalLabel">Nuevo usuario</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="addUserForm">
-                         <div class="mb-3">
-                            <label for="newcedula" class="form-label">Cedula</label>
-                            <input type="text" class="form-control" id="newcedula" placeholder="cedula" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="newnombres" class="form-label">Nombres</label>
-                            <input type="text" class="form-control" id="newnombres" placeholder="Nombres" />
-                        </div>
                         <div class="mb-3">
                             <label for="newcorreo" class="form-label">Correo</label>
-                            <input type="email" class="form-control" id="newcorreo"
-                                aria-describedby="emailHelp" placeholder="Introduzca Correo" />
-                            <small id="emailHelp" class="form-text text-muted">Nunca compartiremos tu correo electrónico con nadie.</small>
+                            <input type="email" class="form-control" id="newcorreo" />
                         </div>
                         <div class="mb-3">
                             <label for="newcontraseña" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="newcontraseña"
-                                placeholder="Contraseña" />
-                            <span class="input-group-text">
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="newcontraseña" />
+                                <span class="input-group-text">
                                     <i class="fas fa-eye" id="toggleAddPassword" style="cursor: pointer;"></i>
-                            </span>
+                                </span>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="newcelular" class="form-label">Celular</label>
-                            <input type="text" class="form-control" id="newcelular" placeholder="Celular" />
-                        </div>
-                        <button type="button" class="btn btn-primary" onclick="agregarUsuario()">Guardar</button>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                     </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="agregarUsuario()">Agregar Usuario</button>
                 </div>
             </div>
         </div>
