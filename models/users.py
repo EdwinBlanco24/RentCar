@@ -9,6 +9,7 @@ class UsersCreate(BaseModel):
     celular: str
 
 class UsersUpdt(BaseModel):
+    usuario_id: int
     cedula:str = Field(..., max_length=11)
     nombres: str = Field(..., max_length=50)
     correo: str = Field(..., max_length=50)
