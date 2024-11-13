@@ -116,12 +116,10 @@
                 <h4 class="text-center text-white">Menú</h4>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="Dashboard.html" data-toggle="modal"
-                            data-target="#userModal">Usuarios</a>
+                        <a class="nav-link" href="Dashboard.html">Usuarios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Clientes.html" data-toggle="modal"
-                            data-target="#clientModal">Clientes</a>
+                        <a class="nav-link" href="Clientes.html">Clientes</a>
                     </li>
                 </ul>
             </div>
@@ -252,6 +250,10 @@
             const correo = document.getElementById("newcorreo").value;
             const contraseña = document.getElementById("newcontraseña").value;
             
+            if (!correo || !contraseña) {
+                alert("Todos los campos son obligatorios.");
+                return;
+            }        
             axios
                 .post("http://127.0.0.1:8000/users/create_users", {                    
                     correo: correo,

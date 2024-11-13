@@ -121,12 +121,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/Clientes.html">Clientes</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="modal" data-target="#reservationModal">Reservas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="modal" data-target="#paymentModal">Pagos</a>
-                    </li>
                 </ul>
             </div>
         </nav>
@@ -148,9 +142,7 @@
                     <tbody id="clients">
                         <tr>
                             <th scope="col">Id</th>
-                            <th scope="col">Cedula</th>
-                            <th scope="col">Nombres</th>
-                            <th scope="col">Correo</th>
+                            <th scope="col">Nombre</th>
                             <th scope="col">Celular</th>
                             <th scope="col">Estado</th>
                             <th scope="col">Opciones de edición</th>
@@ -182,7 +174,7 @@
                 const users = document.getElementById('clients');
                 response.data.forEach(element => {
                     const row = document.createElement('tr')
-                    row.innerHTML = '<td>' + element.cliente_id + '</td><td>' + element.cedula + '</td><td>' + element.nombres + '</td><td>' + element.correo + '</td><td>' + element.celular + '</td><td>' + element.estado_rg + '</td>' +
+                    row.innerHTML = '<td>' + element.cliente_id + '</td><td>' + element.nombre + '</td><td>' + element.celular + '</td><td>' + element.estado_rg + '</td>' +
                         '<td>' +
                         '<button class="btn btn-danger mr-2" onclick="eliminarcliente(' + element.cliente_id + ')">Eliminar</button> ' +
                         '<button id="openModalBtn" class="btn btn-primary" onclick="openUpdateModal(' + element.cliente_id + ')">Actualizar</button>' +
@@ -201,9 +193,7 @@
                 event.preventDefault();
                 const userData = {
                     cliente_id: form.cliente_id.value,
-                    cedula: form.cedula.value,
-                    nombres: form.nombres.value,
-                    correo: form.correo.value,
+                    nombre: form.nombres.value,
                     celular: form.celular.value,
                 };
                 actualizarcliente(userData.cliente_id, userData)
@@ -219,9 +209,7 @@
                     const user = response.data;
 
                     form.cliente_id.value = user.cliente_id;
-                    form.cedula.value = user.cedula;
-                    form.nombres.value = user.nombres;
-                    form.correo.value = user.correo;
+                    form.nombre.value = user.nombre;
                     form.celular.value = user.celular;
 
                     modal.style.display = 'block';
@@ -258,44 +246,39 @@
             });
         };
 
-        function guardarcliente() {
-            const cedula = document.getElementById("cedula").value.trim();
-            const nombres = document.getElementById("nombres").value.trim();
-            const correo = document.getElementById("correo").value.trim();
+        function guardarcliente() {            
+            const nombre = document.getElementById("nombre").value.trim();
             const celular = document.getElementById("celular").value.trim();
 
 
-            if (!cedula || !nombres || !correo || !celular) {
+            if (!nombres || !celular) {
                 alert("Todos los campos son obligatorios.");
                 return;
-            }
-            const data = {
-                cedula: cedula,
-                nombres: nombres,
-                correo: correo,
-                celular: celular
-            };
-            console.log("Datos enviados:", JSON.stringify(data));
+            }            
+            axios
+                .post("http://127.0.0.1:8000/client/create_client",{
+                    nombre: nombre,
+                    celular: celular
+                })
+                .then(function (response) {
+                    alert("Cliente agregado correctamente");
+                    
+                    const modalElement = document.getElementById('addClientModal');
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    modalInstance.hide();
 
-            crearcliente(data);
-        }
+                    resetAddClientForm();
 
-        function crearcliente(data) {
-            axios({
-                method: 'POST',
-                url: 'http://127.0.0.1:8000/client/create_client',
-                data: data,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then(function (response) {
-                if (error.response && error.response.data && error.response.data.detail) {
-                    alert('Error al crear el cliente: ' + JSON.stringify(error.response.data.detail));
-                } else {
-                    alert('Error desconocido');
-                }
-            });
+                    window.location.reload();
+                })
+                .catch(function (error) {
+                    console.error("Error al agregar el cliente:", error);
+                });
+
+                function resetAddClientForm() {
+                document.getElementById("addClientForm").reset();
         }
+        };
     </script>
 
     <!-- Modal para actualizar clientes -->

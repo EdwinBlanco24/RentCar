@@ -169,10 +169,9 @@ async def get_client(cliente_id: int):
 @app.post('/clients/create_clients')
 async def create_clients(clients: Clients):
     cursor = connection.cursor()
-    query = "INSERT INTO clientes (cedula, nombres, correo, celular) VALUES (%s, %s, %s, %s)"
+    query = "INSERT INTO clientes (nombre, celular) VALUES (%s, %s)"
 
-    values = (
-        clients.cedula, clients.nombres, clients.correo, clients.celular)
+    values = (clients.nombre, clients.celular)
     try:
         cursor.execute(query, values)
         connection.commit()
@@ -188,9 +187,9 @@ async def create_clients(clients: Clients):
 @app.put('/clients/updt_clients/{cliente_id}')
 async def updt_clients(cliente_id: int, clients: ClientsUpdt):
     cursor = connection.cursor()
-    query = "UPDATE clientes SET cedula = %s, nombres = %s, correo = %s, celular = %s, fecha_md = current_timestamp where cliente_id = %s"
+    query = "UPDATE clientes SET nombre = %s, celular = %s, fecha_md = current_timestamp where cliente_id = %s"
 
-    values = (clients.cedula, clients.nombres, clients.correo,clients.celular, clients.cliente_id)
+    values = (clients.nombre, clients.celular, clients.cliente_id)
     try:
         cursor.execute(query, values)
         connection.commit()
