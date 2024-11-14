@@ -129,7 +129,7 @@
             <h1 class="h2">Panel Principal de Clientes!</h1>
 
             <h2 class="mt-4 d-flex align-items-center">Clientes
-                <button class="btn btn-primary btn-sm ml-3" data-bs-toggle="modalclient" data-bs-target="#modalclient">Nuevo
+                <button class="btn btn-primary btn-sm ml-3" data-bs-toggle="modal" data-bs-target="#addClientModal">Nuevo
                     Cliente</button>
             </h2>
 
@@ -246,10 +246,9 @@
             });
         };
 
-        function guardarcliente() {            
-            const nombre = document.getElementById("nombre").value.trim();
-            const celular = document.getElementById("celular").value.trim();
-
+        function agregarCliente() {            
+            const nombre = document.getElementById("newnombre").value.trim();
+            const celular = document.getElementById("newcelular").value.trim();
 
             if (!nombres || !celular) {
                 alert("Todos los campos son obligatorios.");
@@ -290,14 +289,8 @@
                 <label for="cliente_id">Id cliente:</label>
                 <input type="text" id="cliente_id" disabled>
 
-                <label for="cedula">Cedula:</label>
-                <input type="text" id="cedula"><br>
-
                 <label for="nombres">Nombres:</label>
                 <input type="text" id="nombres"><br>
-
-                <label for="correo">Correo:</label>
-                <input type="email" id="correo"><br>
 
                 <label for="celular">Celular:</label>
                 <input type="text" id="celular"><br>
@@ -311,39 +304,30 @@
 
 
     <!-- Modal para crear nuevo cliente -->
-    <div class="modal" id="modalclient" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
+    <div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalclienteLabel">Formulario de registro de clientes</h5>
+                    <h5 class="modal-title" id="addClientModalLabel">Formulario de registro de clientes</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="createclients">
-                        <div class="form-group">
-                            <label for="cedula">Cedula</label>
-                            <input type="text" class="form-control" id="cedula" placeholder="cedula">
-                        </div>
-                        <div class="form-group">
+                    <form id="addClientForm">
+                        <div class="mb-3">
                             <label for="nombres">Nombres</label>
                             <input type="text" class="form-control" id="nombres" placeholder="Nombres">
                         </div>
-                        <div class="form-group">
-                            <label for="correo">Correo</label>
-                            <input type="email" class="form-control" id="correo"
-                                aria-describedby="emailHelp" placeholder="Introduzca Correo">
-                            <small id="emailHelp" class="form-text text-muted">Nunca compartiremos tu correo electrónico con nadie.</small>
-                        </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="celular">Celular</label>
                             <input type="text" class="form-control" id="celular" placeholder="Celular">
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
                         </div>
                         <button type="submit" class="btn btn-primary" onclick="guardarcliente()">Guardar</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                     </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="agregarCliente()">Agregar Usuario</button>
                 </div>
             </div>
         </div>
