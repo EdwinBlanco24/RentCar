@@ -193,7 +193,7 @@
                 event.preventDefault();
                 const userData = {
                     cliente_id: form.cliente_id.value,
-                    nombre: form.nombres.value,
+                    nombre: form.nombre.value,
                     celular: form.celular.value,
                 };
                 actualizarcliente(userData.cliente_id, userData)
@@ -250,12 +250,12 @@
             const nombre = document.getElementById("newnombre").value.trim();
             const celular = document.getElementById("newcelular").value.trim();
 
-            if (!nombres || !celular) {
+            if (!nombre || !celular) {
                 alert("Todos los campos son obligatorios.");
                 return;
             }            
             axios
-                .post("http://127.0.0.1:8000/client/create_client",{
+                .post("http://127.0.0.1:8000/clients/create_clients",{
                     nombre: nombre,
                     celular: celular
                 })
@@ -289,8 +289,8 @@
                 <label for="cliente_id">Id cliente:</label>
                 <input type="text" id="cliente_id" disabled>
 
-                <label for="nombres">Nombres:</label>
-                <input type="text" id="nombres"><br>
+                <label for="nombre">Nombres:</label>
+                <input type="text" id="nombre"><br>
 
                 <label for="celular">Celular:</label>
                 <input type="text" id="celular"><br>
@@ -314,15 +314,13 @@
                 <div class="modal-body">
                     <form id="addClientForm">
                         <div class="mb-3">
-                            <label for="nombres">Nombres</label>
-                            <input type="text" class="form-control" id="nombres" placeholder="Nombres">
+                            <label for="nombre">Nombres</label>
+                            <input type="text" class="form-control" id="newnombre" placeholder="Nombres">
                         </div>
                         <div class="mb-3">
                             <label for="celular">Celular</label>
-                            <input type="text" class="form-control" id="celular" placeholder="Celular">
+                            <input type="text" class="form-control" id="newcelular" placeholder="Celular">
                         </div>
-                        <button type="submit" class="btn btn-primary" onclick="guardarcliente()">Guardar</button>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                     </form>
                 </div>
                 <div class="modal-footer">
