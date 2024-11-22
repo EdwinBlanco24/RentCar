@@ -1,5 +1,7 @@
 import mysql.connector
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from typing import Annotated
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from core.connection import connection
