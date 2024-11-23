@@ -32,13 +32,19 @@ def encode_token(payload: dict) -> str:
         return token    
 
 def decode_token(token: Annotated[str, Depends(oauth2_scheme)]) -> dict:
+    try:    
         data = jwt.decode(token, key="secret", algorithms=["HS256"])
+        return data
+    except jwt.JWTErrot as err:
+        raise HTTPException(status_code=401, detail="Token invalido")
+    except Exception as er:
+        raise HTTPException(status_code=500, detail="Error interno!")
 
 @app.post("/login")
 def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
     user = usuarios.get(form_data.correo)
-    if not user:
-        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    if not user or form_data.contraseña != user["contraseña"]:
+        raise HTTPException(status_code=404, detail="Usuario o contraseña incorrecta")
     
     token = encode_token({"correo": user["username"]})
     
