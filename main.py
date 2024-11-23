@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from core.connection import connection
 from models.users import UsersCreate, Login, UsersUpdt
 from models.clients import Clients, ClientsUpdt
+from jose import jwt
 
 app = FastAPI()
 
@@ -23,27 +24,29 @@ app.add_middleware(
 def leer():
     return {"message": "Rent Car Media Luna"}
 
-@app.post("/login")
-def login(dato: Login):
-    if (dato.correo == 'H@TEST' and dato.contraseña == 'H123'):
-        return JSONResponse(
-            content={
-                'status': 'success',
-                'message': 'Datos correctos!',
-                'data': {
-                    'user_id': 4
-                }
-            },
-            status_code=200
-        )
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
-    return JSONResponse(
-        content={
-            'status': 'Error',
-            'message': 'Usuario o contraseña incorrectos!'
-        },
-        status_code=400
-    )
+def encode_token(payload: dict) -> str:
+        token = jwt.encode(payload, key="secret", algorithm="HS256")
+        
+        return token    
+
+def decode_token(token: Annotated[str, Depends(oauth2_scheme)]) -> dict:
+        data = jwt.decode(token, key="secret", algorithms=["HS256"])
+
+@app.post("/login")
+def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
+    user = usuarios.get(form_data.correo)
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    
+    token = encode_token({"correo": user["username"]})
+    
+    return {"access_token": token, "token_type": "bearer"}
+
+@app.get('users/profile')
+def profile(my_user: Annotated[dict, Depends(decode_token)]):
+    return my_user    
 
 #CRUD users
 #Obtener todos los users
