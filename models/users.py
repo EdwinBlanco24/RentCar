@@ -1,17 +1,12 @@
-from pydantic import BaseModel, Field
+from sqlalchemy import Column, Integer, String, Boolean
+from core.connection import Base
 
 
-class UsersCreate(BaseModel):
-    correo: str
-    contraseña: str
+
+class Usuario(Base):
+    __tablename__ = "usuarios"
     
-
-class UsersUpdt(BaseModel):
-    usuario_id: int
-    correo: str = Field(..., max_length=50)
-    contraseña: str = Field(..., max_length=50)
-    
-
-class Login(BaseModel):
-    correo: str
-    contraseña: str
+    usuario_id = Column(Integer, primary_key=True, index=True)
+    correo = Column(String(50), unique=True, nullable=False)
+    contraseña = Column(String(255), nullable=False)
+    estado_rg = Column(Boolean, default=True)
