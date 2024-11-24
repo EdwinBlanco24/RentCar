@@ -267,7 +267,12 @@
             if (!nombre || !celular) {
                 alert("Todos los campos son obligatorios.");
                 return;
-            }            
+            }   
+            
+            if (!/^\d{10}$/.test(celular)) {
+                alert("El celular debe tener 10 dígitos.");
+                return;
+            }
             axios
                 .post("http://127.0.0.1:8000/clients/create_clients",{
                     nombre: nombre,

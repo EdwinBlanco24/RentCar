@@ -1,11 +1,12 @@
-from pydantic import BaseModel, Field
+from sqlalchemy import Column, Integer, String, Boolean
+from core.connection import Base
 
 
-class Clients(BaseModel):
-    nombre: str = Field(..., max_length=50)
-    celular: str = Field(..., max_length=11)
 
-class ClientsUpdt(BaseModel):
-    cliente_id: int
-    nombre: str = Field(..., max_length=50)
-    celular: str = Field(..., max_length=11)
+class Cliente(Base):
+    __tablename__ = "clientes"
+    
+    cliente_id = Column(Integer, primary_key=True, index=True)
+    nombre = Column(String(50), unique=True, nullable=False)
+    celular = Column(String(10), nullable=False)
+    estado_rg = Column(Boolean, default=True)
