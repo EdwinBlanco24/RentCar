@@ -221,15 +221,29 @@
 
         function actualizarcliente(cliente_id, userData) {
             const modal = document.getElementById("updateModalclient");
+
+            if (!userData.nombre || !userData.celular) {
+                alert("Todos los campos son obligatorios.");
+                return;
+            }
+
             axios({
                 method: 'PUT',
                 url: 'http://127.0.0.1:8000/clients/updt_clients/' + cliente_id,
                 data: userData
             }).then(function (response) {
                 alert('Cliente actualizado exitosamente');
-                modal.style.display = "none";
+                const modalInstance = bootstrap.Modal.getInstance(modal);
+                if (modalInstance) modalInstance.hide();
                 location.reload();
             }).catch(function (error) {
+                if (error.response) {
+                        alert('Error del servidor: ' + error.response.data.detail);
+                } else if (error.request) {
+                        alert('No se recibió respuesta del servidor.');
+                } else {
+                        alert('Error en la solicitud: ' + error.message);
+                }                
                 alert('Error al actualizar los datos del cliente: ' + error);
             });
         }

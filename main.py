@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import func
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from typing import Annotated
@@ -108,15 +109,15 @@ async def create_users(users2: UsersCreate, db: Session = Depends(get_db)):
 
 
 @app.put('/users/updt_users/{usuario_id}')
-async def updt_users(usuario_id: int, users: UsersUpdt, db: Session = Depends(get_db)):
+async def updt_users(usuario_id: int, users2: UsersUpdt, db: Session = Depends(get_db)):
     try:
         usuario = db.query(Usuario).filter(Usuario.usuario_id == usuario_id).first()
 
         if not usuario:
             raise HTTPException(status_code=404, detail="Usuario no encontrado")
-        usuario.correo = users.correo
-        usuario.contraseña = pwd_context.hash(users.contraseña)
-        usuario.fecha_md = db.func.current_timestamp() 
+        usuario.correo = users2.correo
+        usuario.contraseña = pwd_context.hash(users2.contraseña)
+        usuario.fecha_md = func.current_timestamp() 
         db.commit()
         db.refresh(usuario)
 
