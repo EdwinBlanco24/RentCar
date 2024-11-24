@@ -1,12 +1,21 @@
-Esta api se creo con FastAPI, Uvicorn[standard], MySql, CORSMiddleware, pydantic, HTML, Boostrap, Css, Javascript
-Seguir este paso a paso para la perfecta ejecución de esta API
-1. Descargar API del repositorio
-   
-2. Abrir CMD desde la raiz del proyecto y crear y activar el entorno virtual:
-   
-python -m venv "env"
+Proyecto - Rent Car
+Dashboard para la gestion de usuarios y clientes de la empresa de rena de carros!
 
-env\Scripts\activate
+Esta api se creo con FastAPI, Uvicorn[standard], SQlArchemy, CORSMiddleware, pydantic, HTML, Boostrap, Css, Javascript
+
+Seguir este paso a paso para la perfecta ejecución de esta API
+1. Ingresar  a siguiente link para interactuar con el CRUD - DESDE EL Back-End
+   https://rentcar-47ss.onrender.com
+
+Como segunda opción
+1. Entrar al repositorio de gituhub y descargar el repositorio
+2. https://github.com/EdwinBlanco24/RentCar
+   
+3. Abrir CMD desde la raiz del proyecto y crear y activar el entorno virtual:
+   
+python -m venv "env"  -  crear entorno virtual
+
+env\Scripts\activate  -  activar el entorno antes creado
 
 3. Instalación de las librerias utilizadas en este proyecto
    
