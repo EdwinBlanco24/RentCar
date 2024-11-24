@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-DATABASE_URL = "mysql+mysqlconnector://root:123456@localhost/rentcar"
+DATABASE_URL = "mysql+mysqlconnector://root:96020628860@localhost/rentcar"
 
 # Configurar el motor de la base de datos
 engine = create_engine(DATABASE_URL)
